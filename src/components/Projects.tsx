@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { projects } from '../data'
+import { projects, type Project } from '../data'
+import ProjectModal from './ProjectModal'
 
 export default function Projects() {
+  const [open, setOpen] = useState<Project | null>(null)
+
   return (
     <section id="projects" className="section">
       <div className="container-x">
@@ -9,121 +13,208 @@ export default function Projects() {
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 flex flex-wrap items-end justify-between gap-4"
+          transition={{ duration: 0.5 }}
+          className="flex flex-wrap items-end justify-between gap-4"
         >
           <div>
-            <p className="section-eyebrow">04. Projects</p>
-            <h2 className="section-title">
-              Selected work <span className="text-accent">.</span>
-            </h2>
+            <p className="eyebrow">03 / Projects</p>
+            <h2 className="h-section mt-4">Selected work.</h2>
           </div>
-          <p className="max-w-md text-sm text-ink-600 dark:text-ink-400">
-            A few things I've built recently. More on my GitHub.
+          <p className="max-w-sm text-sm text-ink-500">
+            A few things I've built recently — open one for the full story.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {projects.map((p, idx) => (
-            <motion.article
-              key={p.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.5, delay: idx * 0.05 }}
-              className="card group relative flex flex-col overflow-hidden"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-accent/10 via-transparent to-accent-soft/20">
-                {p.image ? (
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="grid h-full w-full place-items-center">
-                    <div className="font-mono text-4xl font-bold text-accent/40">
-                      {String(idx + 1).padStart(2, '0')}
-                    </div>
-                  </div>
-                )}
-                {p.featured && (
-                  <span className="absolute left-4 top-4 chip !border-accent/50 !bg-accent/10 !text-accent">
-                    Featured
-                  </span>
-                )}
-              </div>
-
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-xl font-semibold group-hover:text-accent transition-colors">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-sm text-ink-600 dark:text-ink-400 flex-1">
-                  {p.description}
-                </p>
-
-                {p.contribution && (
-                  <p className="mt-3 text-xs text-ink-500 dark:text-ink-400">
-                    <span className="font-mono uppercase tracking-wider text-accent">
-                      My role:{' '}
-                    </span>
-                    {p.contribution}
-                  </p>
-                )}
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {p.tags.map((t) => (
-                    <span key={t} className="chip">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex items-center gap-4 text-sm">
-                  {p.liveUrl && (
-                    <a
-                      href={p.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 text-accent hover:underline"
-                    >
-                      Live demo <ExternalLink className="h-3.5 w-3.5" />
-                    </a>
-                  )}
-                  {p.repoUrl && (
-                    <a
-                      href={p.repoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 text-ink-600 dark:text-ink-300 hover:text-accent"
-                    >
-                      Source <GithubIcon className="h-3.5 w-3.5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.article>
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          {projects.map((p, i) => (
+            <ProjectCard key={p.title} project={p} idx={i} onOpen={() => setOpen(p)} />
           ))}
         </div>
       </div>
+
+      <ProjectModal project={open} onClose={() => setOpen(null)} />
     </section>
   )
 }
 
-function ExternalLink(props: React.SVGProps<SVGSVGElement>) {
+function ProjectCard({
+  project,
+  idx,
+  onOpen,
+}: {
+  project: Project
+  idx: number
+  onOpen: () => void
+}) {
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.5, delay: (idx % 2) * 0.08 }}
+      className="card group flex flex-col"
+    >
+      <ProjectMedia project={project} idx={idx} onOpen={onOpen} />
+
+      <div className="flex flex-1 flex-col p-5">
+        <h3>
+          <button
+            type="button"
+            onClick={onOpen}
+            className="text-left text-base font-medium text-ink-50 transition-colors hover:text-white"
+          >
+            {project.title}
+          </button>
+        </h3>
+        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-ink-400">
+          {project.description}
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {project.tags.map((t) => (
+            <span key={t} className="tag">
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-5 flex items-center gap-4 border-t border-ink-800 pt-4 text-sm">
+          <button
+            type="button"
+            onClick={onOpen}
+            className="group/more inline-flex items-center gap-1 text-ink-100 hover:text-white"
+          >
+            Read more{' '}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/more:translate-x-0.5" />
+          </button>
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="arrow-hover inline-flex items-center gap-1 text-ink-400 hover:text-ink-100"
+            >
+              Source <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  )
+}
+
+function ProjectMedia({
+  project,
+  idx,
+  onOpen,
+}: {
+  project: Project
+  idx: number
+  onOpen: () => void
+}) {
+  const images = project.images ?? []
+  const [active, setActive] = useState(0)
+  const src = images[active]
+
+  return (
+    <>
+      <div className="card-image">
+        {src ? (
+          project.portrait ? (
+            // Phone screenshots: show the whole frame over a blurred fill of itself
+            <>
+              <img
+                src={src}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full scale-110 object-cover blur-xl saturate-150"
+              />
+              <img
+                src={src}
+                alt={`${project.title} — screenshot ${active + 1}`}
+                className="relative h-full w-full object-contain"
+              />
+            </>
+          ) : (
+            <img
+              src={src}
+              alt={project.title}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          )
+        ) : (
+          <div className="relative grid h-full w-full place-items-center">
+            <div
+              className="absolute inset-0 opacity-40"
+              style={{
+                backgroundImage:
+                  'linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)',
+                backgroundSize: '32px 32px',
+                maskImage: 'radial-gradient(circle at center, black, transparent 70%)',
+              }}
+            />
+            <span className="font-mono text-6xl font-medium text-ink-700">
+              {String(idx + 1).padStart(2, '0')}
+            </span>
+          </div>
+        )}
+        {project.featured && (
+          <span className="absolute left-3 top-3 rounded-full border border-ink-700 bg-ink-950/80 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink-200 backdrop-blur">
+            Featured
+          </span>
+        )}
+
+        {/* Click target over the whole image — the thumbnail strip sits outside it */}
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-label={`View details for ${project.title}`}
+          className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 transition-opacity duration-300 focus-visible:opacity-100 group-hover:opacity-100"
+        >
+          <span className="rounded-full border border-ink-600 bg-ink-950/80 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-ink-100 backdrop-blur">
+            View details
+          </span>
+        </button>
+      </div>
+
+      {images.length > 1 && (
+        <div className="flex gap-2 border-b border-ink-800 bg-ink-950/40 px-5 py-3">
+          {images.map((im, i) => (
+            <button
+              key={im}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-label={`${project.title} — screenshot ${i + 1}`}
+              aria-current={i === active}
+              className={`h-14 w-10 shrink-0 overflow-hidden rounded border transition ${
+                i === active
+                  ? 'border-ink-400 opacity-100'
+                  : 'border-ink-800 opacity-50 hover:opacity-90'
+              }`}
+            >
+              <img src={im} alt="" className="h-full w-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
+function ArrowRight(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
+      <line x1="5" y1="12" x2="18" y2="12" />
+      <polyline points="12 6 18 12 12 18" />
     </svg>
   )
 }
 
-function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
+function ArrowUpRight(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.9 1.4 3.6 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.4-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
     </svg>
   )
 }

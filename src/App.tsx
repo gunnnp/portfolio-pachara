@@ -1,8 +1,8 @@
+import Background from './components/Background'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
-import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Certifications from './components/Certifications'
 import Activities from './components/Activities'
@@ -11,13 +11,13 @@ import Footer from './components/Footer'
 
 export default function App() {
   return (
-    <div className="relative min-h-screen">
+    <div className="grain relative min-h-screen">
+      <Background />
       <Nav />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <Skills />
-        <Experience />
         <Projects />
         <Certifications />
         <Activities />

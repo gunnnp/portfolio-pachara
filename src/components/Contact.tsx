@@ -6,50 +6,63 @@ export default function Contact() {
     <section id="contact" className="section">
       <div className="container-x">
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto max-w-2xl text-center"
+          transition={{ duration: 0.5 }}
+          className="relative overflow-hidden rounded-2xl border border-ink-800 bg-ink-900/40 p-10 md:p-14"
         >
-          <p className="section-eyebrow">07. Contact</p>
-          <h2 className="section-title">
-            Let's build something together <span className="text-accent">.</span>
-          </h2>
-          <p className="mt-4 text-ink-600 dark:text-ink-400">
-            I'm currently open to <strong className="text-ink-900 dark:text-ink-100">frontend developer</strong> roles.
-            Feel free to reach out — I usually reply within a day.
-          </p>
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
+              maskImage: 'radial-gradient(ellipse 50% 60% at 100% 0%, black, transparent 70%)',
+              WebkitMaskImage: 'radial-gradient(ellipse 50% 60% at 100% 0%, black, transparent 70%)',
+            }}
+          />
 
-          <a
-            href={`mailto:${profile.email}`}
-            className="btn-primary mt-8 !px-6 !py-3 text-base"
-          >
-            Say hello
-            <ArrowUpRight className="h-4 w-4" />
-          </a>
+          <div className="relative">
+            <p className="eyebrow">06 / Contact</p>
+            <h2 className="mt-4 text-3xl font-medium tracking-tight text-ink-50 md:text-5xl">
+              Let's build something.
+            </h2>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-ink-400">
+              Currently open to frontend developer roles. I usually reply within a day.
+            </p>
 
-          <div className="mt-10 flex items-center justify-center gap-6 text-sm text-ink-500 dark:text-ink-400">
-            {profile.socials.github && (
-              <a
-                href={profile.socials.github}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-accent transition-colors"
-              >
-                GitHub
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href={`mailto:${profile.email}`} className="btn-primary arrow-hover">
+                <span>{profile.email}</span>
+                <ArrowUpRight className="h-4 w-4" />
               </a>
-            )}
-            {profile.socials.linkedin && (
-              <a
-                href={profile.socials.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-accent transition-colors"
-              >
-                LinkedIn
-              </a>
-            )}
+              {profile.socials.github && (
+                <a
+                  href={profile.socials.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn"
+                >
+                  GitHub
+                </a>
+              )}
+              {profile.socials.linkedin && (
+                <a
+                  href={profile.socials.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn"
+                >
+                  LinkedIn
+                </a>
+              )}
+            </div>
+
+            <div className="mt-8 inline-flex items-center gap-2 text-xs text-ink-500">
+              <span className="status-dot" aria-hidden />
+              <span>Available now</span>
+            </div>
           </div>
         </motion.div>
       </div>

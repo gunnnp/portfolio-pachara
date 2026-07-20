@@ -3,35 +3,54 @@ import { profile } from '../data'
 
 export default function Hero() {
   return (
-    <section id="top" className="section relative pt-32 md:pt-40">
+    <section id="top" className="section relative overflow-hidden pt-36 md:pt-44">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse 60% 50% at 50% 30%, black, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 60% 50% at 50% 30%, black, transparent 80%)',
+          }}
+        />
+      </div>
+
       <div className="container-x">
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="section-eyebrow"
+          transition={{ duration: 0.4 }}
+          className="inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900/60 px-3 py-1 text-xs text-ink-300 backdrop-blur"
         >
-          Hello there — I'm
-        </motion.p>
+          <span className="status-dot" aria-hidden />
+          <span>Available for frontend roles</span>
+        </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05]"
+          transition={{ duration: 0.5, delay: 0.08 }}
+          className="mt-6 text-4xl font-medium tracking-tight text-ink-50 md:text-6xl"
         >
-          {profile.name}.
-          <br />
-          <span className="bg-gradient-to-r from-accent to-accent-soft bg-clip-text text-transparent">
-            {profile.role}.
-          </span>
+          {profile.name}
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-6 max-w-2xl text-lg text-ink-600 dark:text-ink-300"
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="mt-3 text-lg text-ink-400 md:text-xl"
+        >
+          Frontend Developer — building interfaces with care.
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.22 }}
+          className="mt-6 max-w-xl text-base leading-relaxed text-ink-400"
         >
           {profile.tagline}
         </motion.p>
@@ -39,14 +58,14 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-10 flex flex-wrap items-center gap-3"
         >
-          <a href="#projects" className="btn-primary">
-            View my work
-            <ArrowRight className="h-4 w-4" />
+          <a href="#projects" className="btn-primary arrow-hover">
+            <span>View work</span>
+            <ArrowUpRight className="h-4 w-4" />
           </a>
-          <a href="#contact" className="btn-ghost">
+          <a href="#contact" className="btn">
             Get in touch
           </a>
         </motion.div>
@@ -54,31 +73,46 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-16 grid max-w-2xl grid-cols-3 gap-4"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-ink-800/70 pt-6 font-mono text-xs text-ink-500"
         >
-          {profile.highlights.map((h) => (
-            <div
-              key={h.label}
-              className="rounded-xl border border-ink-200/70 bg-white/40 p-4 backdrop-blur dark:border-ink-800 dark:bg-ink-900/40"
-            >
-              <div className="text-2xl font-bold text-accent">{h.value}</div>
-              <div className="mt-1 text-xs text-ink-500 dark:text-ink-400">
-                {h.label}
-              </div>
-            </div>
-          ))}
+          <span className="inline-flex items-center gap-2">
+            <LocationIcon className="h-3.5 w-3.5" />
+            {profile.location}
+          </span>
+          <a href={`mailto:${profile.email}`} className="link-quiet">
+            {profile.email}
+          </a>
+          {profile.socials.github && (
+            <a href={profile.socials.github} target="_blank" rel="noreferrer" className="link-quiet">
+              GitHub ↗
+            </a>
+          )}
+          {profile.socials.linkedin && (
+            <a href={profile.socials.linkedin} target="_blank" rel="noreferrer" className="link-quiet">
+              LinkedIn ↗
+            </a>
+          )}
         </motion.div>
       </div>
     </section>
   )
 }
 
-function ArrowRight(props: React.SVGProps<SVGSVGElement>) {
+function ArrowUpRight(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
+      <line x1="7" y1="17" x2="17" y2="7" />
+      <polyline points="7 7 17 7 17 17" />
+    </svg>
+  )
+}
+
+function LocationIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
     </svg>
   )
 }
