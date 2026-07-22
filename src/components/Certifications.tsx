@@ -47,7 +47,7 @@ export default function Certifications() {
   if (certifications.length === 0) return null
 
   return (
-    <section id="certifications" className="section">
+    <section id="certifications" className="py-16 md:py-20">
       <div className="container-x">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -63,37 +63,14 @@ export default function Certifications() {
               Click any card to view the certificate.
             </p>
           </div>
-          {pageCount > 1 && (
-            <div className="flex items-center gap-3 font-mono text-xs text-ink-500">
-              <button
-                type="button"
-                onClick={() => goTo(page - 1)}
-                disabled={page === 0}
-                aria-label="Previous page"
-                className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                ←
-              </button>
-              <span className="tabular-nums">
-                {page + 1} / {pageCount}
-              </span>
-              <button
-                type="button"
-                onClick={() => goTo(page + 1)}
-                disabled={page === pageCount - 1}
-                aria-label="Next page"
-                className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                →
-              </button>
-            </div>
-          )}
         </motion.div>
 
+        {/* py-2 keeps card borders off the clip edge — overflow-x:auto forces
+            overflow-y to auto, which otherwise shaves the bottom row's border */}
         <div
           ref={scrollerRef}
           onScroll={onScroll}
-          className="no-scrollbar mt-12 flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
+          className="no-scrollbar mt-8 flex snap-x snap-mandatory overflow-x-auto scroll-smooth py-2"
         >
           {pages.map((group, p) => (
             <div
@@ -107,13 +84,15 @@ export default function Certifications() {
                     key={c.name}
                     type="button"
                     onClick={() => setOpenIdx(globalIdx)}
-                    className="card group block text-left"
+                    className="card group flex h-full flex-col text-left"
                   >
-                    <div className="card-image">
+                    {/* 3:2 (not the shared card-image 4:3): shorter cards keep the
+                        pager on-screen, and most certificates are ~3:2 so they fill
+                        the frame with almost no crop */}
+                    <div className="relative aspect-[3/2] shrink-0 overflow-hidden bg-ink-900">
                       {c.image ? (
                         c.contain ? (
-                          // Square badge: fill behind it with a blurred copy so the
-                          // white shield sits on colour, not a hard letterbox
+                          // Square badge: sits on a blurred fill of itself
                           <>
                             <img
                               src={c.image}
@@ -125,15 +104,19 @@ export default function Certifications() {
                               src={c.image}
                               alt={c.name}
                               loading="lazy"
-                              className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                              className="absolute inset-0 h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                             />
                           </>
                         ) : (
+                          // Certificates are trimmed to the document edge, so cover
+                          // fills the frame edge-to-edge. object-top keeps the header
+                          // (logo, title, name) — only signatures at the very bottom
+                          // fall outside the crop, and the lightbox shows the full image.
                           <img
                             src={c.image}
                             alt={c.name}
                             loading="lazy"
-                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           />
                         )
                       ) : (
@@ -149,8 +132,10 @@ export default function Certifications() {
                         <ExpandIcon className="h-3 w-3" /> View
                       </span>
                     </div>
+                    {/* min-h reserves two lines for every name so all cards are
+                        the exact same height regardless of title length */}
                     <div className="p-4">
-                      <h3 className="line-clamp-2 text-sm font-medium leading-snug text-ink-100 group-hover:text-ink-50">
+                      <h3 className="line-clamp-2 min-h-[2.4rem] text-sm font-medium leading-snug text-ink-100 group-hover:text-ink-50">
                         {c.name}
                       </h3>
                       <p className="mt-1.5 text-xs text-ink-500">
@@ -167,19 +152,41 @@ export default function Certifications() {
         </div>
 
         {pageCount > 1 && (
-          <div className="mt-6 flex items-center justify-center gap-2">
-            {pages.map((_, p) => (
-              <button
-                key={p}
-                type="button"
-                onClick={() => goTo(p)}
-                aria-label={`Go to page ${p + 1}`}
-                aria-current={p === page}
-                className={`h-1.5 rounded-full transition-all ${
-                  p === page ? 'w-6 bg-ink-300' : 'w-1.5 bg-ink-700 hover:bg-ink-600'
-                }`}
-              />
-            ))}
+          <div className="mt-6 flex items-center justify-center gap-4 font-mono text-xs text-ink-500">
+            <button
+              type="button"
+              onClick={() => goTo(page - 1)}
+              disabled={page === 0}
+              aria-label="Previous page"
+              className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              ←
+            </button>
+
+            <div className="flex items-center gap-2">
+              {pages.map((_, p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => goTo(p)}
+                  aria-label={`Go to page ${p + 1}`}
+                  aria-current={p === page}
+                  className={`h-1.5 rounded-full transition-all ${
+                    p === page ? 'w-6 bg-ink-300' : 'w-1.5 bg-ink-700 hover:bg-ink-600'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => goTo(page + 1)}
+              disabled={page === pageCount - 1}
+              aria-label="Next page"
+              className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              →
+            </button>
           </div>
         )}
       </div>
