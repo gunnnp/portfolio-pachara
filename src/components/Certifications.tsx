@@ -111,12 +111,31 @@ export default function Certifications() {
                   >
                     <div className="card-image">
                       {c.image ? (
-                        <img
-                          src={c.image}
-                          alt={c.name}
-                          loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
+                        c.contain ? (
+                          // Square badge: fill behind it with a blurred copy so the
+                          // white shield sits on colour, not a hard letterbox
+                          <>
+                            <img
+                              src={c.image}
+                              alt=""
+                              aria-hidden
+                              className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl"
+                            />
+                            <img
+                              src={c.image}
+                              alt={c.name}
+                              loading="lazy"
+                              className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                            />
+                          </>
+                        ) : (
+                          <img
+                            src={c.image}
+                            alt={c.name}
+                            loading="lazy"
+                            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        )
                       ) : (
                         <div className="grid h-full w-full place-items-center">
                           <CertIcon className="h-12 w-12 text-ink-700" />

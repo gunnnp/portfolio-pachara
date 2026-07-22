@@ -256,6 +256,7 @@ export type Certification = {
   date: string
   image?: string
   credentialUrl?: string
+  contain?: boolean // true = โชว์รูปเต็มไม่ครอป (สำหรับ badge/โลโก้จตุรัส แทนภาพ certificate แนวนอน)
 }
 
 // TIP: แก้ `name`, `issuer`, `date` ให้ตรงกับใบจริง
@@ -274,6 +275,14 @@ export const certifications: Certification[] = [
     date: '2026',
     image: '/certs/aws-ml-foundations.png',
     credentialUrl: 'https://www.credly.com/go/jOQWnN37',
+  },
+  {
+    name: 'ML Foundations — Digital Badge',
+    issuer: 'AWS Academy',
+    date: '2026',
+    image: '/certs/aws-academy-graduate-machine-learning-foundations-t.png',
+    credentialUrl: 'https://www.credly.com/go/jOQWnN37',
+    contain: true,
   },
   {
     name: 'Oracle Certified Foundations Associate',
