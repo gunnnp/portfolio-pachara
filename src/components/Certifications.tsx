@@ -1,9 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { certifications, type Certification } from '../data'
 
+const PER_PAGE = 6
+
 export default function Certifications() {
   const [openIdx, setOpenIdx] = useState<number | null>(null)
+
+  // Paged horizontal carousel — swipe on touch, arrows/dots on desktop
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [page, setPage] = useState(0)
+  const pageCount = Math.ceil(certifications.length / PER_PAGE)
+  const pages = Array.from({ length: pageCount }, (_, p) =>
+    certifications.slice(p * PER_PAGE, p * PER_PAGE + PER_PAGE),
+  )
+
+  const goTo = (p: number) => {
+    const el = scrollerRef.current
+    if (!el) return
+    const clamped = Math.max(0, Math.min(pageCount - 1, p))
+    el.scrollTo({ left: clamped * el.clientWidth, behavior: 'smooth' })
+    setPage(clamped)
+  }
+
+  const onScroll = () => {
+    const el = scrollerRef.current
+    if (!el) return
+    setPage(Math.round(el.scrollLeft / el.clientWidth))
+  }
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -39,60 +63,106 @@ export default function Certifications() {
               Click any card to view the certificate.
             </p>
           </div>
-          <div className="flex items-center gap-3 font-mono text-xs text-ink-500">
-            <span className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 bg-ink-900 text-ink-100">
-              {certifications.length}
-            </span>
-            <span className="uppercase tracking-widest">Total</span>
-          </div>
+          {pageCount > 1 && (
+            <div className="flex items-center gap-3 font-mono text-xs text-ink-500">
+              <button
+                type="button"
+                onClick={() => goTo(page - 1)}
+                disabled={page === 0}
+                aria-label="Previous page"
+                className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                ←
+              </button>
+              <span className="tabular-nums">
+                {page + 1} / {pageCount}
+              </span>
+              <button
+                type="button"
+                onClick={() => goTo(page + 1)}
+                disabled={page === pageCount - 1}
+                aria-label="Next page"
+                className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
+              >
+                →
+              </button>
+            </div>
+          )}
         </motion.div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {certifications.map((c, idx) => (
-            <motion.button
-              key={c.name}
-              type="button"
-              onClick={() => setOpenIdx(idx)}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4, delay: (idx % 6) * 0.05 }}
-              className="card group block text-left"
+        <div
+          ref={scrollerRef}
+          onScroll={onScroll}
+          className="no-scrollbar mt-12 flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
+        >
+          {pages.map((group, p) => (
+            <div
+              key={p}
+              className="grid w-full flex-none snap-start grid-cols-2 gap-5 pr-px sm:grid-cols-3"
             >
-              <div className="card-image">
-                {c.image ? (
-                  <img
-                    src={c.image}
-                    alt={c.name}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="grid h-full w-full place-items-center">
-                    <CertIcon className="h-12 w-12 text-ink-700" />
-                  </div>
-                )}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
-                <span className="absolute left-3 top-3 rounded-md border border-ink-700 bg-ink-950/70 px-1.5 py-0.5 font-mono text-[10px] text-ink-200 backdrop-blur">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-                <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-md border border-ink-700 bg-ink-950/80 px-2 py-1 font-mono text-[10px] text-ink-200 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
-                  <ExpandIcon className="h-3 w-3" /> View
-                </span>
-              </div>
-              <div className="p-4">
-                <h3 className="line-clamp-2 text-sm font-medium leading-snug text-ink-100 group-hover:text-ink-50">
-                  {c.name}
-                </h3>
-                <p className="mt-1.5 text-xs text-ink-500">
-                  {c.issuer}
-                  <span className="mx-1.5 text-ink-700">·</span>
-                  <span className="font-mono">{c.date}</span>
-                </p>
-              </div>
-            </motion.button>
+              {group.map((c, i) => {
+                const globalIdx = p * PER_PAGE + i
+                return (
+                  <button
+                    key={c.name}
+                    type="button"
+                    onClick={() => setOpenIdx(globalIdx)}
+                    className="card group block text-left"
+                  >
+                    <div className="card-image">
+                      {c.image ? (
+                        <img
+                          src={c.image}
+                          alt={c.name}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="grid h-full w-full place-items-center">
+                          <CertIcon className="h-12 w-12 text-ink-700" />
+                        </div>
+                      )}
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
+                      <span className="absolute left-3 top-3 rounded-md border border-ink-700 bg-ink-950/70 px-1.5 py-0.5 font-mono text-[10px] text-ink-200 backdrop-blur">
+                        {String(globalIdx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1 rounded-md border border-ink-700 bg-ink-950/80 px-2 py-1 font-mono text-[10px] text-ink-200 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+                        <ExpandIcon className="h-3 w-3" /> View
+                      </span>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="line-clamp-2 text-sm font-medium leading-snug text-ink-100 group-hover:text-ink-50">
+                        {c.name}
+                      </h3>
+                      <p className="mt-1.5 text-xs text-ink-500">
+                        {c.issuer}
+                        <span className="mx-1.5 text-ink-700">·</span>
+                        <span className="font-mono">{c.date}</span>
+                      </p>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
           ))}
         </div>
+
+        {pageCount > 1 && (
+          <div className="mt-6 flex items-center justify-center gap-2">
+            {pages.map((_, p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => goTo(p)}
+                aria-label={`Go to page ${p + 1}`}
+                aria-current={p === page}
+                className={`h-1.5 rounded-full transition-all ${
+                  p === page ? 'w-6 bg-ink-300' : 'w-1.5 bg-ink-700 hover:bg-ink-600'
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <AnimatePresence>
@@ -182,6 +252,17 @@ function Lightbox({
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-3">
+            {cert.credentialUrl && (
+              <a
+                href={cert.credentialUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="hidden items-center gap-1.5 rounded-md border border-ink-700 px-2.5 py-1 font-mono text-[11px] text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 sm:inline-flex"
+              >
+                Verify ↗
+              </a>
+            )}
             <span className="hidden font-mono text-xs text-ink-500 md:inline">
               {String(idx + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </span>

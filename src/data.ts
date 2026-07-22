@@ -269,6 +269,13 @@ export const certifications: Certification[] = [
     image: '/certs/aws-ai-practitioner.png',
   },
   {
+    name: 'AWS Academy Graduate — Machine Learning Foundations',
+    issuer: 'Amazon Web Services',
+    date: '2026',
+    image: '/certs/aws-ml-foundations.png',
+    credentialUrl: 'https://www.credly.com/go/jOQWnN37',
+  },
+  {
     name: 'Oracle Certified Foundations Associate',
     issuer: 'Oracle',
     date: '2025',

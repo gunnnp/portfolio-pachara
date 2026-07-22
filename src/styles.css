@@ -119,6 +119,15 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Carousel scrolls by arrows/dots/swipe — the native bar would just be visual noise */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Motion can trigger nausea and migraines for some people. The background still
