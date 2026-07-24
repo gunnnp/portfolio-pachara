@@ -342,14 +342,40 @@ export const certifications: Certification[] = [
 
 export type Activity = {
   title: string
-  category: 'Competition' | 'Club' | 'Seminar' | 'Volunteer'
+  category: 'Competition' | 'Club' | 'Seminar' | 'Volunteer' | 'Award'
   date: string
   role?: string
   description: string
   image?: string
+  images?: string[] // แกลเลอรีรูป (รูปแรกเป็นรูปหลัก) สำหรับการ์ด featured
+  event?: string // ชื่องาน/เวที
+  location?: string
+  prize?: string // เงินรางวัล เช่น "฿2,000"
+  href?: string // ลิงก์ที่เกี่ยวข้อง เช่น #projects
+  hrefLabel?: string
+  featured?: boolean
 }
 
 export const activities: Activity[] = [
+  {
+    title: 'Best AI Prototype for Real-World Impact',
+    category: 'Award',
+    date: '2026',
+    role: 'Team of 5 — for the Middle fall-detection system',
+    event: 'IT Empowering Day 2026 · “In the Era of AI”',
+    location: 'Diamond Hall, Bangkok University',
+    prize: '฿2,000',
+    description:
+      'Won Best AI Prototype for Real-World Impact — judged on how well the idea solves an actual problem. We entered Middle: a camera-free, wearable-free fall-detection system for the elderly that reads WiFi signals and calls for help when no caregiver responds. It stood out among the industry-driven innovation projects for pairing a real ML pipeline with a clear social need.',
+    images: [
+      '/Activity/pachara_it_day3.jpg',
+      '/Activity/pachara_it_day.jpg',
+      '/Activity/pachara_it_day2.jpg',
+    ],
+    href: '#projects',
+    hrefLabel: 'See the Middle project',
+    featured: true,
+  },
   {
     title: 'Hackathon Name',
     category: 'Competition',
