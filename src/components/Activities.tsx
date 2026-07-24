@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { activities, type Activity } from '../data'
+import { type Activity } from '../data'
+import { useContent, useT } from '../store'
 
 export default function Activities() {
+  const { activities } = useContent()
+  const t = useT()
   if (activities.length === 0) return null
 
   const featured = activities.filter((a) => a.featured)
@@ -17,8 +20,8 @@ export default function Activities() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
         >
-          <p className="eyebrow">05 / Activities</p>
-          <h2 className="h-section mt-4">Activities &amp; awards.</h2>
+          <p className="eyebrow">05 / {t.sections.activities}</p>
+          <h2 className="h-section mt-4">{t.activities.title}</h2>
         </motion.div>
 
         {featured.map((a, idx) => (
@@ -61,6 +64,7 @@ export default function Activities() {
 }
 
 function AwardCard({ activity: a, idx }: { activity: Activity; idx: number }) {
+  const t = useT()
   return (
     <motion.article
       initial={{ opacity: 0, y: 16 }}
@@ -105,7 +109,7 @@ function AwardCard({ activity: a, idx }: { activity: Activity; idx: number }) {
                 }
                 className="arrow-hover inline-flex items-center gap-1.5 text-sm text-ink-100 hover:text-white"
               >
-                {a.hrefLabel ?? 'Learn more'}
+                {a.hrefLabel ?? t.activities.learnMore}
                 <ArrowRight className="h-3.5 w-3.5" />
               </button>
             )}

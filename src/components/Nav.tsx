@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { profile } from '../data'
-
-const links = [
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#certifications', label: 'Certs' },
-  { href: '#activities', label: 'Activities' },
-  { href: '#contact', label: 'Contact' },
-]
+import { useT } from '../store'
+import Controls from './Controls'
 
 export default function Nav() {
+  const t = useT()
+  const links = [
+    { href: '#about', label: t.nav.about },
+    { href: '#skills', label: t.nav.skills },
+    { href: '#projects', label: t.nav.projects },
+    { href: '#certifications', label: t.nav.certs },
+    { href: '#activities', label: t.nav.activities },
+    { href: '#contact', label: t.nav.contact },
+  ]
+
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
@@ -80,10 +83,7 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-3">
-          <a href="#contact" className="hidden text-xs text-ink-300 hover:text-ink-100 sm:inline-flex sm:items-center sm:gap-2">
-            <span className="status-dot" aria-hidden />
-            <span>Available</span>
-          </a>
+          <Controls className="hidden sm:flex" />
           <button
             aria-label="Toggle menu"
             onClick={() => setOpen((v) => !v)}
@@ -108,6 +108,9 @@ export default function Nav() {
                 </a>
               </li>
             ))}
+            <li className="mt-2 border-t border-ink-800/60 pt-3">
+              <Controls />
+            </li>
           </ul>
         </div>
       )}

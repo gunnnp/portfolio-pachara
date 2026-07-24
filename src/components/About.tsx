@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { profile, education } from '../data'
+import { education } from '../data'
+import { useContent, useT } from '../store'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -7,6 +8,8 @@ const fadeUp = {
 }
 
 export default function About() {
+  const { profile } = useContent()
+  const t = useT()
   return (
     <section id="about" className="section">
       <div className="container-x">
@@ -17,8 +20,8 @@ export default function About() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
         >
-          <p className="eyebrow">01 / About</p>
-          <h2 className="h-section mt-4">A quick intro.</h2>
+          <p className="eyebrow">01 / {t.sections.about}</p>
+          <h2 className="h-section mt-4">{t.about.title}</h2>
         </motion.div>
 
         <div className="mt-10 grid gap-10 md:grid-cols-[1fr_1.4fr]">
@@ -30,16 +33,16 @@ export default function About() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="space-y-3 text-sm"
           >
-            <InfoRow label="Location" value={profile.location} />
+            <InfoRow label={t.about.location} value={profile.location} />
             <InfoRow
-              label="Email"
+              label={t.about.email}
               value={
                 <a href={`mailto:${profile.email}`} className="link-quiet">
                   {profile.email}
                 </a>
               }
             />
-            <InfoRow label="Role" value={profile.role} />
+            <InfoRow label={t.about.role} value={profile.role} />
           </motion.div>
 
           <motion.div
@@ -66,7 +69,7 @@ export default function About() {
               transition={{ duration: 0.5 }}
               className="eyebrow"
             >
-              Education
+              {t.about.education}
             </motion.p>
             <ul className="mt-6 divide-y divide-ink-800 border-y border-ink-800">
               {education.map((e, i) => (

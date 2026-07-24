@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { certifications, type Certification } from '../data'
+import { type Certification } from '../data'
+import { useContent, useT } from '../store'
 
 const PER_PAGE = 6
 
 export default function Certifications() {
+  const { certifications } = useContent()
+  const t = useT()
   const [openIdx, setOpenIdx] = useState<number | null>(null)
 
   // Paged horizontal carousel — swipe on touch, arrows/dots on desktop
@@ -57,11 +61,9 @@ export default function Certifications() {
           className="flex flex-wrap items-end justify-between gap-4"
         >
           <div>
-            <p className="eyebrow">04 / Certifications</p>
-            <h2 className="h-section mt-4">Credentials.</h2>
-            <p className="mt-3 text-sm text-ink-500">
-              Click any card to view the certificate.
-            </p>
+            <p className="eyebrow">04 / {t.sections.certifications}</p>
+            <h2 className="h-section mt-4">{t.certs.title}</h2>
+            <p className="mt-3 text-sm text-ink-500">{t.certs.subtitle}</p>
           </div>
         </motion.div>
 
@@ -157,7 +159,7 @@ export default function Certifications() {
               type="button"
               onClick={() => goTo(page - 1)}
               disabled={page === 0}
-              aria-label="Previous page"
+              aria-label={t.certs.prevPage}
               className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
             >
               ←
@@ -182,7 +184,7 @@ export default function Certifications() {
               type="button"
               onClick={() => goTo(page + 1)}
               disabled={page === pageCount - 1}
-              aria-label="Next page"
+              aria-label={t.certs.nextPage}
               className="grid h-8 w-8 place-items-center rounded-md border border-ink-700 text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 disabled:cursor-not-allowed disabled:opacity-30"
             >
               →
@@ -228,7 +230,9 @@ function Lightbox({
   onPrev: () => void
   onNext: () => void
 }) {
-  return (
+  const t = useT()
+  // Portal to <body> to escape <main>'s z-10 stacking context (see ProjectModal)
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -286,7 +290,7 @@ function Lightbox({
                 onClick={(e) => e.stopPropagation()}
                 className="hidden items-center gap-1.5 rounded-md border border-ink-700 px-2.5 py-1 font-mono text-[11px] text-ink-200 transition-colors hover:border-ink-500 hover:text-ink-50 sm:inline-flex"
               >
-                Verify ↗
+                {t.certs.verify} ↗
               </a>
             )}
             <span className="hidden font-mono text-xs text-ink-500 md:inline">
@@ -312,16 +316,17 @@ function Lightbox({
             />
           ) : (
             <div className="grid h-64 w-full place-items-center text-ink-500">
-              No image available
+              {t.certs.noImage}
             </div>
           )}
         </div>
       </motion.div>
 
       <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-widest text-ink-500">
-        Esc to close · ← → to navigate
+        {t.certs.hint}
       </p>
-    </motion.div>
+    </motion.div>,
+    document.body,
   )
 }
 

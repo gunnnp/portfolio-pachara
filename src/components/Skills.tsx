@@ -1,15 +1,17 @@
 import { motion } from 'framer-motion'
 import { skills, type Skill } from '../data'
+import { useT } from '../store'
 
-const categories: { key: Skill['category']; label: string }[] = [
-  { key: 'Language', label: 'Languages' },
-  { key: 'Frontend', label: 'Frontend (web)' },
-  { key: 'Mobile', label: 'Mobile development' },
-  { key: 'Database', label: 'Database' },
-  { key: 'Tooling', label: 'Tooling' },
+const categoryKeys: Skill['category'][] = [
+  'Language',
+  'Frontend',
+  'Mobile',
+  'Database',
+  'Tooling',
 ]
 
 export default function Skills() {
+  const t = useT()
   return (
     <section id="skills" className="section">
       <div className="container-x">
@@ -19,17 +21,17 @@ export default function Skills() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
         >
-          <p className="eyebrow">02 / Skills</p>
-          <h2 className="h-section mt-4">Tools I work with.</h2>
+          <p className="eyebrow">02 / {t.sections.skills}</p>
+          <h2 className="h-section mt-4">{t.skills.title}</h2>
         </motion.div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {categories.map((cat, idx) => {
-            const items = skills.filter((s) => s.category === cat.key)
+          {categoryKeys.map((key, idx) => {
+            const items = skills.filter((s) => s.category === key)
             if (items.length === 0) return null
             return (
               <motion.div
-                key={cat.key}
+                key={key}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
@@ -38,7 +40,7 @@ export default function Skills() {
               >
                 <div className="flex items-center justify-between">
                   <h3 className="font-mono text-xs uppercase tracking-widest text-ink-400">
-                    {cat.label}
+                    {t.skills.categories[key]}
                   </h3>
                   <span className="font-mono text-xs text-ink-600">
                     0{idx + 1}

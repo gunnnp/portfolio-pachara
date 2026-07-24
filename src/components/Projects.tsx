@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { projects, type Project } from '../data'
+import { type Project } from '../data'
+import { useContent, useT } from '../store'
 import ProjectModal from './ProjectModal'
 
 export default function Projects() {
+  const { projects } = useContent()
+  const ui = useT()
   const [open, setOpen] = useState<Project | null>(null)
 
   // Let other sections (e.g. the Activities award card) open a project's detail
@@ -15,7 +18,7 @@ export default function Projects() {
     }
     window.addEventListener('open-project', onOpen)
     return () => window.removeEventListener('open-project', onOpen)
-  }, [])
+  }, [projects])
 
   return (
     <section id="projects" className="section">
@@ -28,12 +31,10 @@ export default function Projects() {
           className="flex flex-wrap items-end justify-between gap-4"
         >
           <div>
-            <p className="eyebrow">03 / Projects</p>
-            <h2 className="h-section mt-4">Selected work.</h2>
+            <p className="eyebrow">03 / {ui.sections.projects}</p>
+            <h2 className="h-section mt-4">{ui.projects.title}</h2>
           </div>
-          <p className="max-w-sm text-sm text-ink-500">
-            A few things I've built recently — open one for the full story.
-          </p>
+          <p className="max-w-sm text-sm text-ink-500">{ui.projects.subtitle}</p>
         </motion.div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
@@ -57,6 +58,7 @@ function ProjectCard({
   idx: number
   onOpen: () => void
 }) {
+  const ui = useT()
   return (
     <motion.article
       initial={{ opacity: 0, y: 16 }}
@@ -95,7 +97,7 @@ function ProjectCard({
             onClick={onOpen}
             className="group/more inline-flex items-center gap-1 text-ink-100 hover:text-white"
           >
-            Read more{' '}
+            {ui.projects.readMore}{' '}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/more:translate-x-0.5" />
           </button>
           {project.repoUrl && (
@@ -105,7 +107,7 @@ function ProjectCard({
               rel="noreferrer"
               className="arrow-hover inline-flex items-center gap-1 text-ink-400 hover:text-ink-100"
             >
-              Source <ArrowUpRight className="h-3.5 w-3.5" />
+              {ui.projects.source} <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           )}
         </div>
@@ -123,6 +125,7 @@ function ProjectMedia({
   idx: number
   onOpen: () => void
 }) {
+  const ui = useT()
   const images = project.images ?? []
   const [active, setActive] = useState(0)
   const src = images[active]
@@ -171,7 +174,7 @@ function ProjectMedia({
         )}
         {project.featured && (
           <span className="absolute left-3 top-3 rounded-full border border-ink-700 bg-ink-950/80 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink-200 backdrop-blur">
-            Featured
+            {ui.projects.featured}
           </span>
         )}
 
@@ -179,11 +182,11 @@ function ProjectMedia({
         <button
           type="button"
           onClick={onOpen}
-          aria-label={`View details for ${project.title}`}
+          aria-label={`${ui.projects.viewDetails} — ${project.title}`}
           className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 transition-opacity duration-300 focus-visible:opacity-100 group-hover:opacity-100"
         >
           <span className="rounded-full border border-ink-600 bg-ink-950/80 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-ink-100 backdrop-blur">
-            View details
+            {ui.projects.viewDetails}
           </span>
         </button>
       </div>

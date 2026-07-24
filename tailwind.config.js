@@ -9,19 +9,22 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
+        // Semantic ink scale driven by CSS variables so the whole app can flip
+        // between dark and light themes without per-component changes.
+        // Low numbers = foreground (text), high numbers = background.
         ink: {
-          50: '#fafafa',
-          100: '#f5f5f5',
-          200: '#e5e5e5',
-          300: '#d4d4d4',
-          400: '#a3a3a3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          850: '#1a1a1a',
-          900: '#111111',
-          950: '#0a0a0a',
+          50: 'rgb(var(--ink-50) / <alpha-value>)',
+          100: 'rgb(var(--ink-100) / <alpha-value>)',
+          200: 'rgb(var(--ink-200) / <alpha-value>)',
+          300: 'rgb(var(--ink-300) / <alpha-value>)',
+          400: 'rgb(var(--ink-400) / <alpha-value>)',
+          500: 'rgb(var(--ink-500) / <alpha-value>)',
+          600: 'rgb(var(--ink-600) / <alpha-value>)',
+          700: 'rgb(var(--ink-700) / <alpha-value>)',
+          800: 'rgb(var(--ink-800) / <alpha-value>)',
+          850: 'rgb(var(--ink-850) / <alpha-value>)',
+          900: 'rgb(var(--ink-900) / <alpha-value>)',
+          950: 'rgb(var(--ink-950) / <alpha-value>)',
         },
       },
       animation: {

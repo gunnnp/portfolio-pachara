@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
-import { profile } from '../data'
+import { useContent, useT } from '../store'
 
 export default function Hero() {
+  const { profile } = useContent()
+  const t = useT()
   return (
     <section id="top" className="section relative overflow-hidden pt-36 md:pt-44">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -25,7 +27,7 @@ export default function Hero() {
           className="inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900/60 px-3 py-1 text-xs text-ink-300 backdrop-blur"
         >
           <span className="status-dot" aria-hidden />
-          <span>Available for frontend roles</span>
+          <span>{t.hero.badge}</span>
         </motion.div>
 
         <motion.h1
@@ -43,7 +45,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.15 }}
           className="mt-3 text-lg text-ink-400 md:text-xl"
         >
-          Frontend Developer — building interfaces with care.
+          {t.hero.roleLine}
         </motion.p>
 
         <motion.p
@@ -62,11 +64,11 @@ export default function Hero() {
           className="mt-10 flex flex-wrap items-center gap-3"
         >
           <a href="#projects" className="btn-primary arrow-hover">
-            <span>View work</span>
+            <span>{t.hero.viewWork}</span>
             <ArrowUpRight className="h-4 w-4" />
           </a>
           <a href="#contact" className="btn">
-            Get in touch
+            {t.hero.getInTouch}
           </a>
         </motion.div>
 

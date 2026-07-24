@@ -33,16 +33,16 @@ export default function Background() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div
-        className="absolute left-[-25%] top-[-30%] h-[95vh] w-[95vw] animate-drift-slow"
-        style={{ background: field(125, 211, 252, 0.08) }}
+        className="animate-drift-slow absolute left-[-25%] top-[-30%] h-[95vh] w-[95vw] opacity-[var(--aurora-opacity)]"
+        style={{ background: field(56, 130, 246, 0.08) }}
       />
       <div
-        className="absolute right-[-30%] top-[15%] h-[90vh] w-[90vw] animate-drift-mid"
-        style={{ background: field(167, 139, 250, 0.065) }}
+        className="animate-drift-mid absolute right-[-30%] top-[15%] h-[90vh] w-[90vw] opacity-[var(--aurora-opacity)]"
+        style={{ background: field(139, 92, 246, 0.065) }}
       />
       <div
-        className="absolute bottom-[-35%] left-[10%] h-[85vh] w-[85vw] animate-drift-fast"
-        style={{ background: field(255, 255, 255, 0.05) }}
+        className="animate-drift-fast absolute bottom-[-35%] left-[10%] h-[85vh] w-[85vw] opacity-[var(--aurora-opacity)]"
+        style={{ background: field(20, 130, 200, 0.05) }}
       />
     </div>
   )

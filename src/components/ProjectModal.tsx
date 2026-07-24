@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import type { Project } from '../data'
+import { useT } from '../store'
 
 export default function ProjectModal({
   project,
@@ -24,7 +26,9 @@ export default function ProjectModal({
     }
   }, [project, onClose])
 
-  return (
+  // Portal to <body> so the overlay escapes <main>'s z-10 stacking context —
+  // otherwise it renders beneath the fixed nav no matter how high its z-index.
+  return createPortal(
     <AnimatePresence>
       {project && (
         <motion.div
@@ -34,7 +38,7 @@ export default function ProjectModal({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={onClose}
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-ink-950/80 p-4 backdrop-blur-sm sm:p-8"
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-ink-950/80 p-4 backdrop-blur-sm sm:p-6"
         >
           <motion.div
             key="panel"
@@ -46,11 +50,11 @@ export default function ProjectModal({
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative my-auto w-full max-w-3xl rounded-2xl border border-ink-800 bg-ink-950 shadow-2xl"
+            className="relative my-auto w-full max-w-3xl overflow-hidden rounded-2xl border border-ink-800 bg-ink-950 shadow-2xl"
           >
             <Header project={project} onClose={onClose} />
 
-            <div className="space-y-10 px-6 pb-10 pt-2 sm:px-8">
+            <div className="space-y-10 px-6 pb-10 pt-6 sm:px-8">
               {project.images && project.images.length > 0 && (
                 <Gallery images={project.images} title={project.title} />
               )}
@@ -64,7 +68,8 @@ export default function ProjectModal({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   )
 }
 
@@ -73,7 +78,7 @@ function Header({ project, onClose }: { project: Project; onClose: () => void })
   const meta = [d?.year, d?.context, d?.team].filter(Boolean)
 
   return (
-    <div className="sticky top-0 z-10 rounded-t-2xl border-b border-ink-800 bg-ink-950/95 px-6 py-5 backdrop-blur sm:px-8">
+    <div className="border-b border-ink-800 bg-ink-950 px-6 py-5 sm:px-8">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-2xl font-medium tracking-tight text-ink-50">{project.title}</h2>
@@ -151,13 +156,14 @@ function Gallery({ images, title }: { images: string[]; title: string }) {
 }
 
 function Detail({ project }: { project: Project }) {
+  const ui = useT()
   const d = project.detail
   if (!d) return null
 
   return (
     <>
       {d.problem && (
-        <Section title="The problem">
+        <Section title={ui.projectModal.problem}>
           <p className="text-[15px] leading-relaxed text-ink-300">{d.problem}</p>
         </Section>
       )}
@@ -174,7 +180,7 @@ function Detail({ project }: { project: Project }) {
       )}
 
       {d.howItWorks && d.howItWorks.length > 0 && (
-        <Section title="How it works">
+        <Section title={ui.projectModal.howItWorks}>
           <ol className="space-y-5">
             {d.howItWorks.map((s, i) => (
               <li key={s.step} className="flex gap-4">
@@ -192,7 +198,7 @@ function Detail({ project }: { project: Project }) {
       )}
 
       {d.features && d.features.length > 0 && (
-        <Section title="What it does">
+        <Section title={ui.projectModal.features}>
           <ul className="space-y-2.5">
             {d.features.map((f) => (
               <li key={f} className="flex gap-3 text-sm leading-relaxed text-ink-300">
@@ -205,7 +211,7 @@ function Detail({ project }: { project: Project }) {
       )}
 
       {d.stack && d.stack.length > 0 && (
-        <Section title="Built with">
+        <Section title={ui.projectModal.stack}>
           <dl className="space-y-3">
             {d.stack.map((g) => (
               <div key={g.group} className="flex flex-col gap-1.5 sm:flex-row sm:gap-4">
@@ -226,7 +232,7 @@ function Detail({ project }: { project: Project }) {
       )}
 
       {d.notes && d.notes.length > 0 && (
-        <Section title="Scope & limitations">
+        <Section title={ui.projectModal.notes}>
           <ul className="space-y-2">
             {d.notes.map((n) => (
               <li key={n} className="text-sm leading-relaxed text-ink-500">
@@ -241,10 +247,11 @@ function Detail({ project }: { project: Project }) {
 }
 
 function Links({ project }: { project: Project }) {
+  const ui = useT()
   const links = [
-    { label: 'View source', url: project.repoUrl },
-    { label: 'Live demo', url: project.liveUrl },
-    { label: 'Figma', url: project.figmaUrl },
+    { label: ui.projectModal.viewSource, url: project.repoUrl },
+    { label: ui.projectModal.liveDemo, url: project.liveUrl },
+    { label: ui.projectModal.figma, url: project.figmaUrl },
   ].filter((l): l is { label: string; url: string } => Boolean(l.url) && l.url !== '#')
 
   if (links.length === 0) return null
