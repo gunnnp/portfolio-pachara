@@ -351,7 +351,7 @@ export type Activity = {
   event?: string // ชื่องาน/เวที
   location?: string
   prize?: string // เงินรางวัล เช่น "฿2,000"
-  href?: string // ลิงก์ที่เกี่ยวข้อง เช่น #projects
+  project?: string // title ของโปรเจกต์ที่จะเปิดหน้ารายละเอียดเมื่อกดปุ่ม
   hrefLabel?: string
   featured?: boolean
 }
@@ -372,31 +372,8 @@ export const activities: Activity[] = [
       '/Activity/pachara_it_day.jpg',
       '/Activity/pachara_it_day2.jpg',
     ],
-    href: '#projects',
+    project: 'Middle',
     hrefLabel: 'See the Middle project',
     featured: true,
-  },
-  {
-    title: 'Hackathon Name',
-    category: 'Competition',
-    date: '2025',
-    role: 'Frontend Developer',
-    description:
-      'Built the frontend of a web app under 24 hours as part of a 4-person team. Finalist / participant.',
-  },
-  {
-    title: 'Programming Club',
-    category: 'Club',
-    date: '2023 – Present',
-    role: 'Member',
-    description:
-      'Joined weekly workshops on modern web development, contributed to peer code reviews and study group sessions.',
-  },
-  {
-    title: 'Tech Seminar Name',
-    category: 'Seminar',
-    date: '2024',
-    description:
-      'Attended a seminar on modern frontend architecture and web performance best practices.',
   },
 ]

@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { projects, type Project } from '../data'
 import ProjectModal from './ProjectModal'
 
 export default function Projects() {
   const [open, setOpen] = useState<Project | null>(null)
+
+  // Let other sections (e.g. the Activities award card) open a project's detail
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const title = (e as CustomEvent<string>).detail
+      const match = projects.find((p) => p.title === title)
+      if (match) setOpen(match)
+    }
+    window.addEventListener('open-project', onOpen)
+    return () => window.removeEventListener('open-project', onOpen)
+  }, [])
 
   return (
     <section id="projects" className="section">
