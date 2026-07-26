@@ -61,6 +61,8 @@ export default function ProjectModal({
 
               <p className="text-[15px] leading-relaxed text-ink-300">{project.description}</p>
 
+              <Role project={project} />
+
               <Detail project={project} />
 
               <Links project={project} />
@@ -152,6 +154,16 @@ function Gallery({ images, title }: { images: string[]; title: string }) {
         </div>
       )}
     </div>
+  )
+}
+
+function Role({ project }: { project: Project }) {
+  const ui = useT()
+  if (!project.contribution) return null
+  return (
+    <Section title={ui.projectModal.myRole}>
+      <p className="text-[15px] leading-relaxed text-ink-300">{project.contribution}</p>
+    </Section>
   )
 }
 

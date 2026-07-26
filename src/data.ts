@@ -4,17 +4,17 @@
 
 export const profile = {
   name: 'Pachara Torchot',
-  role: 'Frontend Developer',
-  tagline: 'I build fast, accessible, and beautiful web experiences.',
-  location: 'Bangkok, Thailand',
+  role: 'Full Stack Developer',
+  tagline: 'I build reliable web and mobile products, from interface to backend.',
+  location: 'Phra Nakhon Si Ayutthaya, Thailand',
   email: 'pacharatorchot@gmail.com',
   socials: {
     github: 'https://github.com/gunnnp',
     linkedin: 'https://www.linkedin.com/in/pachara-torchot-b91879423/',
   },
   about: [
-    "I'm a frontend developer passionate about crafting delightful user interfaces and turning complex problems into simple, intuitive experiences.",
-    "I care deeply about performance, accessibility, and design details. When I'm not coding, I explore new tools and contribute to open-source projects.",
+    'I build software end to end — from web and mobile interfaces to the APIs, databases, and services behind them. My recent work ranges from an IoT fall-detection system with a machine-learning pipeline to a mobile survival game, which taught me to make the different parts of a stack fit together cleanly.',
+    'I care about maintainable architecture, performance, and the small details that make a product feel considered. I like to start from a real problem and build toward something people can actually use.',
   ],
   highlights: [
     { label: 'Years coding', value: '2+' },
@@ -24,54 +24,118 @@ export const profile = {
 }
 
 export type Education = {
+  stage: string // ป้ายกำกับระดับ เช่น "Secondary education", "Current · Year 4"
   school: string
   degree: string
-  period: string
   detail?: string
+  current?: boolean // true = จุดไทม์ไลน์เป็นสีเด่น (ระดับปัจจุบัน)
 }
 
 export const education: Education[] = [
   {
-    school: 'Your University',
-    degree: 'B.Sc. in Computer Science (or your field)',
-    period: '2022 – Present',
-    detail: 'Relevant coursework: Web Development, Data Structures, UI/UX Design.',
+    stage: 'Secondary education',
+    school: 'Winit Suksa School (under Royal Patronage)',
+    degree: 'Textbook Program',
+  },
+  {
+    stage: 'Current · Year 4',
+    school: 'Bangkok University',
+    degree: 'Computer Science',
+    detail: 'School of Information Technology and Innovation',
+    current: true,
   },
 ]
 
-export type Skill = {
-  name: string
-  level: number // 0 – 100
-  category: 'Language' | 'Frontend' | 'Mobile' | 'Database' | 'Tooling'
-}
+// icon = ชื่อไฟล์ใน /skills-icons/{icon}.svg  หรือ glyph inline: 'wifi' | 'chip' | 'api'
+// ไม่มี icon = แสดงเป็นตัวอักษรย่อ (monogram)
+export type SkillItem = { name: string; icon?: string }
+export type SkillGroup = { key: string; items: SkillItem[] }
 
-export const skills: Skill[] = [
-  // Languages
-  { name: 'TypeScript', level: 85, category: 'Language' },
-  { name: 'JavaScript (ES6+)', level: 90, category: 'Language' },
-  { name: 'Python', level: 75, category: 'Language' },
-  { name: 'Java', level: 70, category: 'Language' },
-  { name: 'C#', level: 70, category: 'Language' },
+export const skillGroups: SkillGroup[] = [
+  {
+    key: 'languages',
+    items: [
+      { name: 'TypeScript', icon: 'typescript' },
+      { name: 'JavaScript', icon: 'javascript' },
+      { name: 'Python', icon: 'python' },
+      { name: 'Java', icon: 'java' },
+      { name: 'C#', icon: 'csharp' },
+      { name: 'C++', icon: 'cplusplus' },
+    ],
+  },
+  {
+    key: 'webMobile',
+    items: [
+      { name: 'React', icon: 'react' },
+      { name: 'HTML5', icon: 'html5' },
+      { name: 'CSS3', icon: 'css3' },
+      { name: 'Tailwind', icon: 'tailwindcss' },
+      { name: 'React Native', icon: 'react' },
+      { name: 'Expo', icon: 'expo' },
+      { name: '.NET MAUI', icon: 'dotnet' },
+    ],
+  },
+  {
+    key: 'backendData',
+    items: [
+      { name: 'Node.js', icon: 'nodejs' },
+      { name: 'SQLite', icon: 'sqlite' },
+      { name: 'PostgreSQL', icon: 'postgresql' },
+    ],
+  },
+  {
+    key: 'aiMl',
+    items: [{ name: 'NumPy', icon: 'numpy' }],
+  },
+  {
+    key: 'devTools',
+    items: [
+      { name: 'GitHub', icon: 'github' },
+      { name: 'Git', icon: 'git' },
+      { name: 'VS Code', icon: 'vscode' },
+      { name: 'Visual Studio', icon: 'visualstudio' },
+      { name: 'Jira', icon: 'jira' },
+      { name: 'Xcode', icon: 'xcode' },
+      { name: 'Figma', icon: 'figma' },
+      { name: 'Vite', icon: 'vite' },
+    ],
+  },
+  {
+    key: 'desktopData',
+    items: [
+      { name: 'Tkinter', icon: 'python' },
+      { name: 'pandas', icon: 'pandas' },
+    ],
+  },
+  {
+    key: 'iot',
+    items: [
+      { name: 'C/C++', icon: 'cplusplus' },
+      { name: 'Python', icon: 'python' },
+      { name: 'MQTT', icon: 'api' },
+      { name: 'ESP32', icon: 'chip' },
+      { name: 'PlatformIO' },
+      { name: 'Arduino', icon: 'arduino' },
+      { name: 'Node-RED', icon: 'nodered' },
+    ],
+  },
+]
 
-  // Frontend (web)
-  { name: 'React', level: 90, category: 'Frontend' },
-  { name: 'HTML5', level: 95, category: 'Frontend' },
-  { name: 'CSS3', level: 90, category: 'Frontend' },
-  { name: 'Tailwind CSS', level: 90, category: 'Frontend' },
-
-  // Mobile development
-  { name: 'React Native', level: 75, category: 'Mobile' },
-  { name: 'Expo', level: 75, category: 'Mobile' },
-  { name: '.NET MAUI', level: 65, category: 'Mobile' },
-
-  // Database
-  { name: 'SQLite', level: 75, category: 'Database' },
-  { name: 'PostgreSQL', level: 70, category: 'Database' },
-
-  // Tooling
-  { name: 'Git / GitHub', level: 85, category: 'Tooling' },
-  { name: 'Vite', level: 80, category: 'Tooling' },
-  { name: 'Figma', level: 80, category: 'Tooling' },
+// ป้ายทักษะเชิงความสามารถ — label เป็น key สำหรับแปลใน content.ts
+export const hardSkills = [
+  'frontendDev',
+  'responsiveUi',
+  'reactEcosystem',
+  'backendBasics',
+  'databaseBasics',
+  'gitVersion',
+]
+export const softSkills = [
+  'teamwork',
+  'ideation',
+  'positivity',
+  'communication',
+  'adaptability',
 ]
 
 // รายละเอียดที่แสดงเมื่อกดเข้าไปดูโปรเจกต์ — ทุก field เป็น optional
@@ -229,24 +293,6 @@ export const projects: Project[] = [
         'Tested end to end — CSI capture, API, inference, event logging, push, acknowledge, and escalation — but not yet deployed across varied real households.',
       ],
     },
-  },
-  {
-    title: 'Project Three',
-    description:
-      'An e-commerce prototype with cart, checkout flow, and animated transitions between routes.',
-    tags: ['React', 'Framer Motion', 'Zustand'],
-    contribution: 'Implemented the cart state management and page transitions.',
-    liveUrl: '#',
-    repoUrl: '#',
-  },
-  {
-    title: 'Project Four',
-    description:
-      'A weather app that fetches live data with graceful loading states and offline support.',
-    tags: ['React', 'Vite', 'PWA'],
-    contribution: 'Handled API integration, loading states, and PWA setup.',
-    liveUrl: '#',
-    repoUrl: '#',
   },
 ]
 

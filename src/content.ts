@@ -8,9 +8,11 @@ import {
   projects as projectsEN,
   certifications,
   activities as activitiesEN,
+  education as educationEN,
   type Project,
   type Activity,
   type ProjectDetail,
+  type Education,
 } from './data'
 
 export type Lang = 'en' | 'th'
@@ -21,6 +23,7 @@ export type Content = {
   projects: Project[]
   certifications: typeof certifications
   activities: Activity[]
+  education: Education[]
 }
 
 // ── Thai overrides for projects ─────────────────────────────────
@@ -165,12 +168,13 @@ const ACTIVITY_TH: Record<string, ActivityTH> = {
 // ── Build Thai datasets from English + overrides ────────────────
 const profileTH: typeof profileEN = {
   ...profileEN,
-  role: 'Frontend Developer',
-  tagline: 'ผมสร้างเว็บที่เร็ว เข้าถึงง่าย และสวยงาม',
-  location: 'กรุงเทพฯ ประเทศไทย',
+  name: 'พชร ต่อโชติ',
+  role: 'Full Stack Developer',
+  tagline: 'ผมสร้างผลิตภัณฑ์เว็บและมือถือที่เชื่อถือได้ ตั้งแต่หน้าบ้านจนถึงหลังบ้าน',
+  location: 'พระนครศรีอยุธยา ประเทศไทย',
   about: [
-    'ผมเป็น frontend developer ที่หลงใหลการออกแบบส่วนติดต่อผู้ใช้ที่น่าใช้ และเปลี่ยนปัญหาซับซ้อนให้เป็นประสบการณ์ที่เรียบง่ายและเข้าใจง่าย',
-    'ผมใส่ใจเรื่องประสิทธิภาพ การเข้าถึง และรายละเอียดของดีไซน์ เวลาว่างจากการเขียนโค้ด ผมชอบลองเครื่องมือใหม่ ๆ และมีส่วนร่วมกับโปรเจกต์โอเพนซอร์ส',
+    'ผมพัฒนาซอฟต์แวร์แบบครบวงจร — ตั้งแต่ส่วนติดต่อผู้ใช้บนเว็บและมือถือ ไปจนถึง API ฐานข้อมูล และเซอร์วิสเบื้องหลัง ผลงานล่าสุดของผมมีตั้งแต่ระบบตรวจจับการล้มแบบ IoT ที่มี machine-learning pipeline ไปจนถึงเกมเอาชีวิตรอดบนมือถือ ซึ่งฝึกให้ผมทำให้ส่วนต่าง ๆ ของระบบทำงานประสานกันได้อย่างเป็นระเบียบ',
+    'ผมให้ความสำคัญกับสถาปัตยกรรมที่ดูแลรักษาง่าย ประสิทธิภาพ และรายละเอียดเล็ก ๆ ที่ทำให้ผลิตภัณฑ์ดูผ่านการคิดมาอย่างดี ผมชอบเริ่มจากปัญหาจริงแล้วค่อย ๆ สร้างไปสู่สิ่งที่ผู้คนใช้งานได้จริง',
   ],
   highlights: [
     { label: 'ปีที่เขียนโค้ด', value: '2+' },
@@ -178,6 +182,21 @@ const profileTH: typeof profileEN = {
     { label: 'แก้วกาแฟ', value: '∞' },
   ],
 }
+
+const educationTH: Education[] = [
+  {
+    stage: 'มัธยมศึกษา',
+    school: 'โรงเรียนวินิตศึกษา ในพระราชูปถัมภ์ฯ',
+    degree: 'โครงการ Textbook',
+  },
+  {
+    stage: 'ปัจจุบัน · ปี 4',
+    school: 'มหาวิทยาลัยกรุงเทพ',
+    degree: 'วิทยาการคอมพิวเตอร์',
+    detail: 'คณะเทคโนโลยีสารสนเทศและนวัตกรรม',
+    current: true,
+  },
+]
 
 const projectsTH: Project[] = projectsEN.map((p) => {
   const t = PROJECT_TH[p.title]
@@ -202,12 +221,14 @@ export const content: Record<Lang, Content> = {
     projects: projectsEN,
     certifications,
     activities: activitiesEN,
+    education: educationEN,
   },
   th: {
     profile: profileTH,
     projects: projectsTH,
     certifications,
     activities: activitiesTH,
+    education: educationTH,
   },
 }
 
@@ -227,8 +248,8 @@ const uiEN = {
     language: 'Language',
   },
   hero: {
-    badge: 'Available for frontend roles',
-    roleLine: 'Frontend Developer — building interfaces with care.',
+    badge: 'Available for full-stack roles',
+    roleLine: 'Full Stack Developer — building products end to end.',
     viewWork: 'View work',
     getInTouch: 'Get in touch',
   },
@@ -241,21 +262,51 @@ const uiEN = {
     contact: 'Contact',
   },
   about: {
-    title: 'A quick intro.',
+    title: 'About me.',
+    details: 'Details',
     location: 'Location',
     email: 'Email',
     role: 'Role',
     education: 'Education',
   },
   skills: {
-    title: 'Tools I work with.',
-    categories: {
-      Language: 'Languages',
-      Frontend: 'Frontend (web)',
-      Mobile: 'Mobile development',
-      Database: 'Database',
-      Tooling: 'Tooling',
+    title: 'Technical skills',
+    subtitle:
+      'Tools and technologies used to build products across applications, backend services, data management and connected devices.',
+    groups: {
+      languages: 'Programming Languages',
+      webMobile: 'Web & Mobile',
+      backendData: 'Backend & Data',
+      aiMl: 'AI & Machine Learning',
+      devTools: 'Development Tools',
+      desktopData: 'Desktop & Data Science',
+      iot: 'IoT & Embedded Systems',
     } as Record<string, string>,
+    hard: {
+      label: 'Hard skills',
+      title: 'Technical capabilities',
+      desc: 'Strongest on the frontend — building responsive, accessible interfaces — with working knowledge of the backend, APIs, and databases to ship a feature end to end.',
+      items: {
+        frontendDev: 'Frontend Development',
+        responsiveUi: 'Responsive UI',
+        reactEcosystem: 'React & React Native',
+        backendBasics: 'Backend & API basics',
+        databaseBasics: 'Database basics',
+        gitVersion: 'Git Version Control',
+      } as Record<string, string>,
+    },
+    soft: {
+      label: 'Soft skills',
+      title: 'Working strengths',
+      desc: 'A dependable teammate who brings ideas to the table and keeps the energy positive — even when a project gets tricky.',
+      items: {
+        teamwork: 'Teamwork',
+        ideation: 'Creative Thinking',
+        positivity: 'Positive Energy',
+        communication: 'Communication',
+        adaptability: 'Adaptability',
+      } as Record<string, string>,
+    },
   },
   projects: {
     title: 'Selected work.',
@@ -267,6 +318,7 @@ const uiEN = {
   },
   projectModal: {
     problem: 'The problem',
+    myRole: 'My role',
     howItWorks: 'How it works',
     features: 'What it does',
     stack: 'Built with',
@@ -291,7 +343,7 @@ const uiEN = {
   },
   contact: {
     title: "Let's build something.",
-    subtitle: 'Currently open to frontend developer roles. I usually reply within a day.',
+    subtitle: 'Currently open to full-stack developer roles. I usually reply within a day.',
     availableNow: 'Available now',
   },
   footer: {
@@ -312,8 +364,8 @@ const uiTH: UI = {
     language: 'ภาษา',
   },
   hero: {
-    badge: 'พร้อมรับงาน frontend',
-    roleLine: 'Frontend Developer — สร้างส่วนติดต่อผู้ใช้อย่างใส่ใจ',
+    badge: 'พร้อมรับงาน full-stack',
+    roleLine: 'Full Stack Developer — พัฒนาผลิตภัณฑ์ครบวงจร',
     viewWork: 'ดูผลงาน',
     getInTouch: 'ติดต่อผม',
   },
@@ -326,20 +378,50 @@ const uiTH: UI = {
     contact: 'ติดต่อ',
   },
   about: {
-    title: 'แนะนำตัวสั้น ๆ',
+    title: 'เกี่ยวกับผม',
+    details: 'ข้อมูล',
     location: 'ที่อยู่',
     email: 'อีเมล',
     role: 'ตำแหน่ง',
     education: 'การศึกษา',
   },
   skills: {
-    title: 'เครื่องมือที่ผมใช้',
-    categories: {
-      Language: 'ภาษาโปรแกรม',
-      Frontend: 'Frontend (เว็บ)',
-      Mobile: 'พัฒนาแอปมือถือ',
-      Database: 'ฐานข้อมูล',
-      Tooling: 'เครื่องมือ',
+    title: 'ทักษะทางเทคนิค',
+    subtitle:
+      'เครื่องมือและเทคโนโลยีที่ใช้สร้างผลิตภัณฑ์ ครอบคลุมทั้งแอปพลิเคชัน เซอร์วิสเบื้องหลัง การจัดการข้อมูล และอุปกรณ์ที่เชื่อมต่อ',
+    groups: {
+      languages: 'ภาษาโปรแกรม',
+      webMobile: 'เว็บและมือถือ',
+      backendData: 'แบ็กเอนด์และข้อมูล',
+      aiMl: 'AI และ Machine Learning',
+      devTools: 'เครื่องมือพัฒนา',
+      desktopData: 'เดสก์ท็อปและวิทยาการข้อมูล',
+      iot: 'IoT และระบบฝังตัว',
+    },
+    hard: {
+      label: 'Hard skills',
+      title: 'ความสามารถเชิงเทคนิค',
+      desc: 'ถนัดด้าน frontend เป็นหลัก — สร้างส่วนติดต่อผู้ใช้ที่ตอบสนองและเข้าถึงง่าย — พร้อมพื้นฐานฝั่ง backend, API และฐานข้อมูลพอที่จะทำฟีเจอร์ได้ครบวงจร',
+      items: {
+        frontendDev: 'พัฒนา Frontend',
+        responsiveUi: 'UI ที่ตอบสนอง',
+        reactEcosystem: 'React และ React Native',
+        backendBasics: 'พื้นฐาน Backend และ API',
+        databaseBasics: 'พื้นฐานฐานข้อมูล',
+        gitVersion: 'ควบคุมเวอร์ชันด้วย Git',
+      },
+    },
+    soft: {
+      label: 'Soft skills',
+      title: 'จุดแข็งในการทำงาน',
+      desc: 'เป็นเพื่อนร่วมทีมที่ไว้ใจได้ ช่วยคิดไอเดีย และคอยเติมพลังบวกให้ทีม แม้ในเวลาที่โปรเจกต์ยากขึ้น',
+      items: {
+        teamwork: 'การทำงานเป็นทีม',
+        ideation: 'ความคิดสร้างสรรค์',
+        positivity: 'พลังบวก',
+        communication: 'การสื่อสาร',
+        adaptability: 'การปรับตัว',
+      },
     },
   },
   projects: {
@@ -352,6 +434,7 @@ const uiTH: UI = {
   },
   projectModal: {
     problem: 'ปัญหา',
+    myRole: 'ส่วนที่ผมดำเนินงาน',
     howItWorks: 'วิธีการทำงาน',
     features: 'ทำอะไรได้บ้าง',
     stack: 'สร้างด้วย',
@@ -376,7 +459,7 @@ const uiTH: UI = {
   },
   contact: {
     title: 'มาสร้างอะไรด้วยกัน',
-    subtitle: 'ตอนนี้เปิดรับงาน frontend developer ปกติผมตอบกลับภายในหนึ่งวัน',
+    subtitle: 'ตอนนี้เปิดรับงาน full-stack developer ปกติผมตอบกลับภายในหนึ่งวัน',
     availableNow: 'พร้อมเริ่มงาน',
   },
   footer: {

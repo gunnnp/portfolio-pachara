@@ -1,7 +1,7 @@
-import { profile } from '../data'
-import { useT } from '../store'
+import { useContent, useT } from '../store'
 
 export default function Footer() {
+  const { profile } = useContent()
   const t = useT()
   return (
     <footer className="border-t border-ink-800 py-8">

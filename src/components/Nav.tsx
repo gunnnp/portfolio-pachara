@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { profile } from '../data'
-import { useT } from '../store'
+import { useContent, useT } from '../store'
 import Controls from './Controls'
 
 export default function Nav() {
+  const { profile } = useContent()
   const t = useT()
   const links = [
     { href: '#about', label: t.nav.about },

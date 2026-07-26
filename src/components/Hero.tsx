@@ -19,7 +19,8 @@ export default function Hero() {
         />
       </div>
 
-      <div className="container-x">
+      <div className="container-x grid items-center gap-10 md:grid-cols-[1.15fr_0.85fr] md:gap-14">
+        <div>
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -95,6 +96,33 @@ export default function Hero() {
               LinkedIn ↗
             </a>
           )}
+        </motion.div>
+        </div>
+
+        {/* Portrait */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96, y: 12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto w-full max-w-[15rem] md:order-last md:max-w-none"
+        >
+          {/* soft colour halo behind the frame */}
+          <div
+            aria-hidden
+            className="absolute -inset-4 -z-10 rounded-[2rem] opacity-70 blur-2xl"
+            style={{
+              background:
+                'radial-gradient(60% 60% at 30% 20%, rgb(var(--ink-500) / 0.25), transparent 70%)',
+            }}
+          />
+          <div className="relative aspect-square overflow-hidden rounded-2xl border border-ink-800 bg-ink-900 shadow-2xl">
+            <img
+              src="/pachara.jpg"
+              alt={profile.name}
+              className="absolute inset-0 h-full w-full object-cover object-[center_12%]"
+            />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+          </div>
         </motion.div>
       </div>
     </section>
