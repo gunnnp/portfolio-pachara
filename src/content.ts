@@ -34,6 +34,50 @@ type ProjectTH = {
 }
 
 const PROJECT_TH: Record<string, ProjectTH> = {
+  'AI Tutor': {
+    description:
+      'แพลตฟอร์มเว็บที่ให้นักเรียนมีติวเตอร์ AI ตามความต้องการ ซึ่งปรับตามระดับของแต่ละคน นักเรียนเลือกวิชาและถามคำถาม ติวเตอร์จะทำแบบทดสอบวินิจฉัยสั้น ๆ ประเมินว่าเป็นระดับเริ่มต้น กลาง หรือสูง แล้วส่งคำอธิบายและโจทย์ฝึกให้ตรงระดับนั้น จากนั้นตรวจงานพร้อมให้ฟีดแบ็ก และเลื่อนระดับหรือประเมินใหม่ สร้างขึ้นเพื่อแก้ 3 ปัญหา: การรออาจารย์นาน เนื้อหาออนไลน์ที่ไม่ตรงระดับ และค่าติวส่วนตัวที่แพง',
+    contribution:
+      'โปรเจกต์รายวิชา CS460 ปัญญาประดิษฐ์ มหาวิทยาลัยกรุงเทพ (ทีม 4 คน) ดูแลส่วน frontend ด้วย React และ flow การติว เชื่อมกับ backend FastAPI + LLM',
+    detail: {
+      context: 'CS460 ปัญญาประดิษฐ์ · มหาวิทยาลัยกรุงเทพ',
+      team: 'ทีม 4 คน',
+      problem:
+        'การหาคนช่วยตอนติดปัญหาของนักเรียนมักช้าและไม่สม่ำเสมอ — เวลาพบอาจารย์ต้องรอคิว เนื้อหาออนไลน์ไม่ค่อยตรงระดับ และการติวส่วนตัวก็แพง AI Tutor ช่วยได้ทันทีโดยประเมินก่อนว่านักเรียนอยู่ระดับไหน แล้วค่อยสอนจากจุดนั้น',
+      stats: [
+        { label: 'คำถามวินิจฉัย', value: '2–3' },
+        { label: 'ระดับความเชี่ยวชาญ', value: '3' },
+        { label: 'โมเดล LLM', value: 'Llama · Qwen · DeepSeek' },
+        { label: 'การค้นคืน', value: 'ChromaDB RAG' },
+      ],
+      howItWorks: [
+        { step: 'ถาม', detail: 'นักเรียนเลือกวิชาและถามคำถามด้วยภาษาธรรมดา' },
+        { step: 'วินิจฉัย', detail: 'ติวเตอร์ถามคำถาม 2–3 ข้อเพื่อดูว่านักเรียนรู้อะไรอยู่แล้ว' },
+        { step: 'ประเมิน', detail: 'จากคำตอบ ระบบประเมินระดับ — เริ่มต้น กลาง หรือสูง' },
+        { step: 'สอน', detail: 'ส่งคำอธิบายและโจทย์ฝึกให้ตรงระดับนั้น อ้างอิงเนื้อหาวิชาผ่าน RAG' },
+        { step: 'ฝึก', detail: 'นักเรียนทำโจทย์ที่ระบบสร้างให้' },
+        { step: 'ตรวจ', detail: 'ติวเตอร์ตรวจงานพร้อมฟีดแบ็ก แล้วเลื่อนระดับหรือประเมินใหม่' },
+      ],
+      features: [
+        'คำอธิบายและโจทย์ที่ปรับตามระดับ',
+        'แบบทดสอบวินิจฉัยและตรวจงานอัตโนมัติ',
+        'สร้างโจทย์เฉพาะบุคคล',
+        'วงจรฟีดแบ็กทันทีที่เลื่อนระดับหรือประเมินใหม่',
+        'คำตอบอ้างอิงเนื้อหาวิชาด้วย RAG (ChromaDB)',
+      ],
+      stack: [
+        { group: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'React Router', 'Axios'] },
+        { group: 'Backend', items: ['FastAPI', 'Pydantic', 'SQLAlchemy'] },
+        { group: 'AI / LLM', items: ['LangChain', 'OpenRouter', 'Llama 3.3 70B', 'Qwen 2.5 72B', 'DeepSeek R1'] },
+        { group: 'ข้อมูล', items: ['PostgreSQL', 'ChromaDB (RAG)'] },
+        { group: 'ดีพลอย', items: ['Vercel'] },
+      ],
+      notes: [
+        'เป็นต้นแบบในรายวิชา พัฒนาโดยทีม 4 คน',
+        'ใช้ LLM แบบ free tier ผ่าน OpenRouter การตอบจึงขึ้นกับความพร้อมของโมเดลและ rate limit',
+      ],
+    },
+  },
   'The End of Mine': {
     description:
       'เกมเอาชีวิตรอดแนวข้อความในโลกหลังหายนะบนมือถือ สร้างด้วย .NET 9 MAUI ผู้เล่นสร้างตัวละคร เลือกระดับความยาก (Easy เกิดใหม่ได้ → Hard ตายถาวร) และเอาชีวิตรอดผ่านเนื้อเรื่อง 4 บท พร้อมบริหารค่าพลังชีวิต ความหิว ความกระหาย และความล้า ระบบที่ซ้อนกัน — เสียงที่ดึงดูดอันตราย ความเสี่ยงติดเชื้อจากบาดแผล ความทนทานของไอเทม และช่องเก็บของ 4×4 — ทำให้ทุกการกระทำเป็นการแลกเปลี่ยน มีการต่อ LLM สร้างเหตุการณ์ ไอเทม และเนื้อเรื่องใหม่ทุกรอบ ไม่มีการเล่นซ้ำที่เหมือนกัน และใช้ SQLite เซฟเกมในเครื่อง',
@@ -141,6 +185,74 @@ const PROJECT_TH: Record<string, ProjectTH> = {
         'ไม่ใช่อุปกรณ์การแพทย์ และไม่ทดแทนผู้ดูแลหรือการเฝ้าระวังทางคลินิก',
         'ขอบเขตต้นแบบ: เก็บ CSI ผ่าน USB serial ในพื้นที่ทดสอบในอาคาร ยังไม่ได้สตรีมจากทุกห้องของบ้านจริง',
         'ทดสอบครบวงจรแล้ว — เก็บ CSI, API, การอนุมาน, บันทึกเหตุการณ์, push, รับทราบ และยกระดับ — แต่ยังไม่ได้ใช้งานจริงในบ้านหลากหลาย',
+      ],
+    },
+  },
+  'Elderly Falls Monitoring System': {
+    description:
+      'ต้นแบบระบบตรวจจับการล้มแบบ IoT สร้างบน ESP32 และเซนเซอร์ตรวจจับการเคลื่อนไหว MPU6050 เฟิร์มแวร์แบบ rule-based เฝ้าดูค่าความเร่งรวมเพื่อหารูปแบบการล้ม — แรงกระแทกฉับพลันตามด้วยการอยู่นิ่งเป็นเวลานาน — แล้วเดินผ่าน state machine (ปกติ → กระแทก → สงสัยว่าล้ม → รอยกเลิก → แจ้งเตือน) การแจ้งเตือนแสดงผ่านจอ OLED, ไฟ LED และบัซเซอร์ พร้อมปุ่มกดยกเลิกกรณีเตือนผิดภายใน 10 วินาที มี dashboard บนเว็บที่กราฟความเร่งแบบเรียลไทม์และปรับค่า threshold ได้ และทั้งระบบรันบนซิมูเลเตอร์ Wokwi จึงเดโมได้โดยไม่ต้องมีฮาร์ดแวร์จริง',
+    contribution:
+      'ต้นแบบในรายวิชา IoT พัฒนาเฟิร์มแวร์ตรวจจับแบบ rule-based, state machine การแจ้งเตือน และ dashboard บนเว็บ',
+    detail: {
+      context: 'รายวิชา IoT / ระบบฝังตัว',
+      problem:
+        'การล้มที่ไม่มีใครเห็นคือกรณีอันตรายสำหรับคนที่อยู่ลำพัง ต้นแบบนี้ทดลองหาสัญญาณที่ง่ายและเชื่อถือได้ที่สุด — การเคลื่อนไหวดิบ ๆ ของร่างกาย — โดยใช้เซนเซอร์ความเร่งราคาถูกแทนกล้องหรือโทรศัพท์ เพื่อให้การตรวจจับอยู่บนอุปกรณ์เล็ก ๆ ที่เปิดตลอดเวลา',
+      stats: [
+        { label: 'เกณฑ์แรงกระแทก', value: '2.5 g' },
+        { label: 'นิ่งเพื่อยืนยัน', value: '3 วิ' },
+        { label: 'เวลากดยกเลิก', value: '10 วิ' },
+        { label: 'รันบน', value: 'Wokwi sim' },
+      ],
+      howItWorks: [
+        {
+          step: 'รับสัญญาณ',
+          detail:
+            'MPU6050 ส่งค่าความเร่งและไจโรสโคปให้ ESP32 ผ่าน I²C อย่างสม่ำเสมอ',
+        },
+        {
+          step: 'ตรวจจับ',
+          detail:
+            'เฟิร์มแวร์คำนวณความเร่งรวม √(ax² + ay² + az²) แล้วเทียบกับเกณฑ์แรงกระแทก 2.5 g',
+        },
+        {
+          step: 'ยืนยัน',
+          detail:
+            'แรงกระแทกที่ตามด้วยการอยู่นิ่งราว 3 วินาที (±0.18 g รอบ ๆ 1 g) จะถูกทำเครื่องหมายว่าสงสัยว่าล้ม เพื่อกรองการเคลื่อนไหวปกติออก',
+        },
+        {
+          step: 'ช่วงยกเลิก',
+          detail:
+            'บัซเซอร์ดังและ state machine รอ 10 วินาที — การกดปุ่มจะยกเลิกการเตือนผิดก่อนยกระดับ',
+        },
+        {
+          step: 'แจ้งเตือน',
+          detail:
+            'ถ้าไม่มีใครกดยกเลิก จอ OLED, LED และบัซเซอร์จะส่งสัญญาณการล้ม และเปิดสถานะผ่าน web API เล็ก ๆ',
+        },
+        {
+          step: 'แดชบอร์ด',
+          detail:
+            'หน้าเว็บกราฟความเร่งแบบเรียลไทม์ ปรับ threshold และสั่งสถานการณ์ทดสอบได้ (ล้ม สะดุด ปกติ ยกเลิก)',
+        },
+      ],
+      features: [
+        'ตรวจจับการล้มแบบ rule-based — แรงกระแทกบวกการอยู่นิ่งเป็นเวลานาน',
+        'State machine ชัดเจน: ปกติ → กระแทก → สงสัยว่าล้ม → รอยกเลิก → แจ้งเตือน',
+        'แจ้งเตือนหลายช่องทางผ่านจอ OLED, LED เขียว/แดง และบัซเซอร์',
+        'ปุ่มยกเลิกการเตือนผิดภายใน 10 วินาที',
+        'แดชบอร์ดเว็บกราฟความเร่งเรียลไทม์และปรับ threshold ได้',
+        'REST API สำหรับสถานะ การตั้งค่า และสถานการณ์เดโม',
+        'รันบนซิมูเลเตอร์ Wokwi ได้เต็มรูปแบบ เดโมได้โดยไม่ต้องมีฮาร์ดแวร์',
+      ],
+      stack: [
+        { group: 'เฟิร์มแวร์', items: ['C++', 'Arduino', 'PlatformIO'] },
+        { group: 'ฮาร์ดแวร์', items: ['ESP32', 'MPU6050', 'OLED SSD1306', 'LEDs', 'Buzzer'] },
+        { group: 'แดชบอร์ด', items: ['HTML5', 'CSS3', 'JavaScript'] },
+        { group: 'ซิมูเลชัน', items: ['Wokwi'] },
+      ],
+      notes: [
+        'เป็นต้นแบบ — ค่า threshold ต้องปรับใหม่บนฮาร์ดแวร์จริง และไม่ใช่อุปกรณ์การแพทย์',
+        'การตรวจจับเป็นแบบ rule-based ไม่ใช่ machine learning ขั้นต่อไปที่วางแผนคือการจำแนกกิจกรรม, cloud, GPS และแอปมือถือ',
       ],
     },
   },
@@ -352,16 +464,17 @@ const uiEN = {
 }
 
 const uiTH: UI = {
+  // Navigation stays in English — short, universal labels read cleaner
   nav: {
-    about: 'เกี่ยวกับ',
-    skills: 'ทักษะ',
-    projects: 'ผลงาน',
-    certs: 'ใบรับรอง',
-    activities: 'กิจกรรม',
-    contact: 'ติดต่อ',
-    available: 'ว่างงาน',
-    theme: 'ธีม',
-    language: 'ภาษา',
+    about: 'About',
+    skills: 'Skills',
+    projects: 'Projects',
+    certs: 'Certs',
+    activities: 'Activities',
+    contact: 'Contact',
+    available: 'Available',
+    theme: 'Theme',
+    language: 'Language',
   },
   hero: {
     badge: 'พร้อมรับงาน full-stack',
@@ -369,46 +482,48 @@ const uiTH: UI = {
     viewWork: 'ดูผลงาน',
     getInTouch: 'ติดต่อผม',
   },
+  // Section eyebrow labels stay English (they pair with a Thai headline)
   sections: {
-    about: 'เกี่ยวกับ',
-    skills: 'ทักษะ',
-    projects: 'ผลงาน',
-    certifications: 'ใบรับรอง',
-    activities: 'กิจกรรม',
-    contact: 'ติดต่อ',
+    about: 'About',
+    skills: 'Skills',
+    projects: 'Projects',
+    certifications: 'Certifications',
+    activities: 'Activities',
+    contact: 'Contact',
   },
   about: {
     title: 'เกี่ยวกับผม',
-    details: 'ข้อมูล',
-    location: 'ที่อยู่',
-    email: 'อีเมล',
-    role: 'ตำแหน่ง',
-    education: 'การศึกษา',
+    details: 'Details',
+    location: 'Location',
+    email: 'Email',
+    role: 'Role',
+    education: 'Education',
   },
   skills: {
     title: 'ทักษะทางเทคนิค',
     subtitle:
       'เครื่องมือและเทคโนโลยีที่ใช้สร้างผลิตภัณฑ์ ครอบคลุมทั้งแอปพลิเคชัน เซอร์วิสเบื้องหลัง การจัดการข้อมูล และอุปกรณ์ที่เชื่อมต่อ',
+    // Category names and skill chips stay English — they are technical terms
     groups: {
-      languages: 'ภาษาโปรแกรม',
-      webMobile: 'เว็บและมือถือ',
-      backendData: 'แบ็กเอนด์และข้อมูล',
-      aiMl: 'AI และ Machine Learning',
-      devTools: 'เครื่องมือพัฒนา',
-      desktopData: 'เดสก์ท็อปและวิทยาการข้อมูล',
-      iot: 'IoT และระบบฝังตัว',
+      languages: 'Programming Languages',
+      webMobile: 'Web & Mobile',
+      backendData: 'Backend & Data',
+      aiMl: 'AI & Machine Learning',
+      devTools: 'Development Tools',
+      desktopData: 'Desktop & Data Science',
+      iot: 'IoT & Embedded Systems',
     },
     hard: {
       label: 'Hard skills',
       title: 'ความสามารถเชิงเทคนิค',
       desc: 'ถนัดด้าน frontend เป็นหลัก — สร้างส่วนติดต่อผู้ใช้ที่ตอบสนองและเข้าถึงง่าย — พร้อมพื้นฐานฝั่ง backend, API และฐานข้อมูลพอที่จะทำฟีเจอร์ได้ครบวงจร',
       items: {
-        frontendDev: 'พัฒนา Frontend',
-        responsiveUi: 'UI ที่ตอบสนอง',
-        reactEcosystem: 'React และ React Native',
-        backendBasics: 'พื้นฐาน Backend และ API',
-        databaseBasics: 'พื้นฐานฐานข้อมูล',
-        gitVersion: 'ควบคุมเวอร์ชันด้วย Git',
+        frontendDev: 'Frontend Development',
+        responsiveUi: 'Responsive UI',
+        reactEcosystem: 'React & React Native',
+        backendBasics: 'Backend & API basics',
+        databaseBasics: 'Database basics',
+        gitVersion: 'Git Version Control',
       },
     },
     soft: {
@@ -416,11 +531,11 @@ const uiTH: UI = {
       title: 'จุดแข็งในการทำงาน',
       desc: 'เป็นเพื่อนร่วมทีมที่ไว้ใจได้ ช่วยคิดไอเดีย และคอยเติมพลังบวกให้ทีม แม้ในเวลาที่โปรเจกต์ยากขึ้น',
       items: {
-        teamwork: 'การทำงานเป็นทีม',
-        ideation: 'ความคิดสร้างสรรค์',
-        positivity: 'พลังบวก',
-        communication: 'การสื่อสาร',
-        adaptability: 'การปรับตัว',
+        teamwork: 'Teamwork',
+        ideation: 'Creative Thinking',
+        positivity: 'Positive Energy',
+        communication: 'Communication',
+        adaptability: 'Adaptability',
       },
     },
   },

@@ -106,23 +106,54 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto w-full max-w-[15rem] md:order-last md:max-w-none"
         >
-          {/* soft colour halo behind the frame */}
+          {/* colour glow behind the frame */}
           <div
             aria-hidden
-            className="absolute -inset-4 -z-10 rounded-[2rem] opacity-70 blur-2xl"
+            className="absolute -inset-6 -z-20 rounded-[2.5rem] opacity-80 blur-3xl"
             style={{
               background:
-                'radial-gradient(60% 60% at 30% 20%, rgb(var(--ink-500) / 0.25), transparent 70%)',
+                'radial-gradient(58% 58% at 30% 22%, rgb(99 102 241 / 0.35), transparent 70%), radial-gradient(50% 50% at 85% 90%, rgb(56 189 248 / 0.28), transparent 70%)',
             }}
           />
-          <div className="relative aspect-square overflow-hidden rounded-2xl border border-ink-800 bg-ink-900 shadow-2xl">
+
+          {/* offset outline frame for depth */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 translate-x-3.5 translate-y-3.5 rounded-2xl border border-ink-700/60"
+          />
+
+          {/* dotted texture peeking from behind, top-left */}
+          <div
+            aria-hidden
+            className="absolute -left-5 -top-5 -z-10 h-20 w-20 rounded-lg opacity-60"
+            style={{
+              backgroundImage: 'radial-gradient(rgb(var(--ink-500) / 0.6) 1px, transparent 1px)',
+              backgroundSize: '9px 9px',
+              maskImage: 'linear-gradient(135deg, black, transparent 65%)',
+              WebkitMaskImage: 'linear-gradient(135deg, black, transparent 65%)',
+            }}
+          />
+
+          <div className="group relative aspect-square overflow-hidden rounded-2xl border border-ink-800 bg-ink-900 shadow-2xl">
             <img
               src="/pachara.jpg"
               alt={profile.name}
-              className="absolute inset-0 h-full w-full object-cover object-[center_12%]"
+              className="absolute inset-0 h-full w-full object-cover object-[center_12%] transition-transform duration-700 group-hover:scale-[1.04]"
             />
+            {/* gentle vignette + top sheen */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/25 via-transparent to-white/5" />
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
           </div>
+
+          {/* viewfinder corner brackets */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -left-1.5 -top-1.5 h-6 w-6 rounded-tl-lg border-l-2 border-t-2 border-ink-500"
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -bottom-1.5 -right-1.5 h-6 w-6 rounded-br-lg border-b-2 border-r-2 border-ink-500"
+          />
         </motion.div>
       </div>
     </section>

@@ -100,6 +100,16 @@ function ProjectCard({
             {ui.projects.readMore}{' '}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/more:translate-x-0.5" />
           </button>
+          {project.liveUrl && project.liveUrl !== '#' && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="arrow-hover inline-flex items-center gap-1 text-ink-200 hover:text-ink-50"
+            >
+              {ui.projectModal.liveDemo} <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          )}
           {project.repoUrl && (
             <a
               href={project.repoUrl}
@@ -133,7 +143,17 @@ function ProjectMedia({
   return (
     <>
       <div className="card-image">
-        {src ? (
+        {project.video ? (
+          <video
+            src={project.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="h-full w-full object-cover"
+          />
+        ) : src ? (
           project.portrait ? (
             // Phone screenshots: show the whole frame over a blurred fill of itself
             <>
@@ -172,12 +192,6 @@ function ProjectMedia({
             </span>
           </div>
         )}
-        {project.featured && (
-          <span className="absolute left-3 top-3 rounded-full border border-ink-700 bg-ink-950/80 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-ink-200 backdrop-blur">
-            {ui.projects.featured}
-          </span>
-        )}
-
         {/* Click target over the whole image — the thumbnail strip sits outside it */}
         <button
           type="button"

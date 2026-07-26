@@ -5,6 +5,7 @@ type AppState = {
   theme: Theme
   lang: Lang
   toggleTheme: () => void
+  setTheme: (t: Theme) => void
   setLang: (l: Lang) => void
 }
 
@@ -41,6 +42,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       theme,
       lang,
       toggleTheme: () => setTheme((t) => (t === 'dark' ? 'light' : 'dark')),
+      setTheme: (t) => setTheme(t),
       setLang: (l) => setLangState(l),
     }),
     [theme, lang],

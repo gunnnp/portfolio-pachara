@@ -3,8 +3,50 @@ import { useApp } from '../store'
 import type { Lang } from '../content'
 
 export default function Controls({ className = '' }: { className?: string }) {
-  const { theme, lang, toggleTheme, setLang } = useApp()
+  const { theme, lang, setTheme, setLang } = useApp()
   const langs: Lang[] = ['en', 'th']
+
+  // Circular reveal of the new theme, expanding from the button that was clicked.
+  const switchTheme = (e: React.MouseEvent) => {
+    const next = theme === 'dark' ? 'light' : 'dark'
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void> }
+    }
+
+    if (reduce || !doc.startViewTransition) {
+      setTheme(next)
+      return
+    }
+
+    const x = e.clientX
+    const y = e.clientY
+    const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))
+
+    // The callback only flips the theme attribute (cheap) so the snapshot is
+    // captured instantly. React state updates outside the transition, keeping
+    // the clip-path animation from stuttering on a heavy re-render.
+    const transition = doc.startViewTransition(() => {
+      document.documentElement.setAttribute('data-theme', next)
+    })
+    setTheme(next)
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 500,
+          easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+          pseudoElement: '::view-transition-new(root)',
+        },
+      )
+    })
+  }
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
@@ -38,7 +80,7 @@ export default function Controls({ className = '' }: { className?: string }) {
       {/* Theme toggle */}
       <button
         type="button"
-        onClick={toggleTheme}
+        onClick={switchTheme}
         aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         className="grid h-8 w-8 place-items-center rounded-full border border-ink-800 bg-ink-900/50 text-ink-300 transition-colors hover:border-ink-600 hover:text-ink-50"
       >

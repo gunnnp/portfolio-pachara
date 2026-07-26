@@ -158,6 +158,7 @@ export type Project = {
   tags: string[]
   contribution?: string // ส่วนที่นักศึกษาดำเนินงาน
   images?: string[] // รูปแรกคือรูปหลักที่โชว์บนการ์ด ที่เหลือเป็น thumbnail กดสลับได้
+  video?: string // วิดีโอเดโม แสดงบนการ์ด (เล่นเมื่อ hover) และในหน้ารายละเอียด
   portrait?: boolean // true = รูปแนวตั้ง (สกรีนช็อตมือถือ) แสดงเต็มใบไม่โดนครอป
   liveUrl?: string
   repoUrl?: string
@@ -166,7 +167,58 @@ export type Project = {
   detail?: ProjectDetail
 }
 
-export const projects: Project[] = [
+const projectsRaw: Project[] = [
+  {
+    title: 'AI Tutor',
+    description:
+      'A web platform that gives students an on-demand AI tutor which adapts to their level. A student picks a course and asks a question; the tutor runs a short diagnostic quiz, estimates whether they are a beginner, intermediate, or advanced, then delivers explanations and practice problems pitched to that level. It grades the practice with feedback and either advances the student or re-assesses. Built to close three gaps: long waits for professor help, one-size-fits-all online content, and the cost of private tutoring.',
+    tags: ['React', 'Vite', 'Tailwind', 'FastAPI', 'LangChain', 'PostgreSQL'],
+    contribution:
+      'Academic project for CS460 Artificial Intelligence, Bangkok University (team of 4). Worked on the React frontend and the tutoring flow against the FastAPI + LLM backend.',
+    liveUrl: 'https://project-h50pr.vercel.app/',
+    repoUrl: 'https://github.com/gunnnp/CS460_Project_AI_Tutor',
+    video: '/projects/ai-tutor/demo.mp4',
+    featured: true,
+    detail: {
+      year: '2025',
+      context: 'CS460 Artificial Intelligence · Bangkok University',
+      team: 'Team of 4',
+      problem:
+        'Getting unstuck as a student is slow and uneven — office hours have queues, online material is rarely pitched at your exact level, and private tutoring is expensive. AI Tutor gives instant help that first works out where you are, then teaches from there.',
+      stats: [
+        { label: 'Diagnostic questions', value: '2–3' },
+        { label: 'Proficiency levels', value: '3' },
+        { label: 'LLMs', value: 'Llama · Qwen · DeepSeek' },
+        { label: 'Retrieval', value: 'ChromaDB RAG' },
+      ],
+      howItWorks: [
+        { step: 'Ask', detail: 'The student picks a course and asks a question in plain language.' },
+        { step: 'Diagnose', detail: 'The tutor asks 2–3 quick quiz questions to probe what the student already knows.' },
+        { step: 'Assess', detail: 'From the answers it estimates a level — beginner, intermediate, or advanced.' },
+        { step: 'Teach', detail: 'It delivers explanations and practice problems pitched to that level, grounded in course material via RAG.' },
+        { step: 'Practice', detail: 'The student works through the generated exercises.' },
+        { step: 'Grade', detail: 'The tutor grades the work with feedback, then advances the student or re-runs the assessment.' },
+      ],
+      features: [
+        'Level-adaptive explanations and exercises',
+        'Automated diagnostic quiz and grading',
+        'Personalized exercise generation per student',
+        'Immediate feedback loop that advances or re-assesses',
+        'Retrieval-augmented answers grounded in course material (ChromaDB)',
+      ],
+      stack: [
+        { group: 'Frontend', items: ['React', 'Vite', 'Tailwind CSS', 'React Router', 'Axios'] },
+        { group: 'Backend', items: ['FastAPI', 'Pydantic', 'SQLAlchemy'] },
+        { group: 'AI / LLM', items: ['LangChain', 'OpenRouter', 'Llama 3.3 70B', 'Qwen 2.5 72B', 'DeepSeek R1'] },
+        { group: 'Data', items: ['PostgreSQL', 'ChromaDB (RAG)'] },
+        { group: 'Deploy', items: ['Vercel'] },
+      ],
+      notes: [
+        'Coursework prototype built by a team of 4.',
+        'Uses free-tier LLMs through OpenRouter, so responses depend on model availability and rate limits.',
+      ],
+    },
+  },
   {
     title: 'The End of Mine',
     description:
@@ -182,7 +234,6 @@ export const projects: Project[] = [
     ],
     portrait: true,
     repoUrl: 'https://github.com/pls2s/TheEndOfMine',
-    featured: true,
     detail: {
       year: '2025',
       context: 'CS356 Mobile Application Development I · Bangkok University',
@@ -294,7 +345,91 @@ export const projects: Project[] = [
       ],
     },
   },
+  {
+    title: 'Elderly Falls Monitoring System',
+    description:
+      'An IoT fall-detection prototype built on an ESP32 and an MPU6050 motion sensor. Rule-based firmware watches total acceleration for a fall signature — a sharp impact spike followed by prolonged stillness — and moves through a state machine (Normal → Impact → Fall suspected → Wait-cancel → Alert). Alerts fire on an OLED, LEDs, and a buzzer, with a physical button to dismiss false alarms inside a 10-second window. A live web dashboard graphs acceleration in real time and lets you retune thresholds, and the whole rig runs in a Wokwi simulator so it can be demoed without any physical hardware.',
+    tags: ['ESP32', 'C++', 'Arduino', 'PlatformIO', 'MPU6050', 'JavaScript'],
+    contribution:
+      'IoT coursework prototype. Built the rule-based detection firmware, the alert state machine, and the live web dashboard.',
+    video: '/projects/elderly-falls/demo.mp4',
+    repoUrl: 'https://github.com/naphatdev/Elderly-falls-monitoring-system',
+    detail: {
+      year: '2025',
+      context: 'IoT / embedded systems coursework',
+      problem:
+        'A fall that goes unnoticed is the dangerous case for someone living alone. This prototype explores the simplest reliable signal for it — the raw motion of the body — using a cheap accelerometer instead of a camera or a phone, so detection can live on a tiny always-on device.',
+      stats: [
+        { label: 'Impact threshold', value: '2.5 g' },
+        { label: 'Stillness to confirm', value: '3 s' },
+        { label: 'Cancel window', value: '10 s' },
+        { label: 'Runs in', value: 'Wokwi sim' },
+      ],
+      howItWorks: [
+        {
+          step: 'Sense',
+          detail:
+            'An MPU6050 streams acceleration and gyroscope data to the ESP32 over I²C at a steady rate.',
+        },
+        {
+          step: 'Detect',
+          detail:
+            'The firmware computes total acceleration √(ax² + ay² + az²) and compares it against a 2.5 g impact threshold.',
+        },
+        {
+          step: 'Confirm',
+          detail:
+            'An impact followed by ~3 seconds of stillness (±0.18 g around 1 g) marks a suspected fall, filtering out ordinary movement.',
+        },
+        {
+          step: 'Cancel window',
+          detail:
+            'The buzzer sounds and the state machine waits 10 seconds — a button press dismisses a false alarm before it escalates.',
+        },
+        {
+          step: 'Alert',
+          detail:
+            'If no one cancels, the OLED, LEDs, and buzzer signal the fall and the status is exposed over a small web API.',
+        },
+        {
+          step: 'Dashboard',
+          detail:
+            'A live web UI plots acceleration in real time and lets you retune thresholds and fire demo scenarios (fall, trip, normal, cancel).',
+        },
+      ],
+      features: [
+        'Rule-based fall signature — impact spike plus prolonged stillness',
+        'Explicit state machine: Normal → Impact → Fall suspected → Wait-cancel → Alert',
+        'Multi-channel alerts on an OLED display, green/red LEDs, and a buzzer',
+        'False-alarm cancel button within a 10-second window',
+        'Live web dashboard with a real-time acceleration graph and adjustable thresholds',
+        'REST API for status, configuration, and demo scenarios',
+        'Runs fully in the Wokwi simulator — demoable without physical hardware',
+      ],
+      stack: [
+        { group: 'Firmware', items: ['C++', 'Arduino', 'PlatformIO'] },
+        { group: 'Hardware', items: ['ESP32', 'MPU6050', 'OLED SSD1306', 'LEDs', 'Buzzer'] },
+        { group: 'Dashboard', items: ['HTML5', 'CSS3', 'JavaScript'] },
+        { group: 'Simulation', items: ['Wokwi'] },
+      ],
+      notes: [
+        'Prototype — thresholds need recalibration on real hardware, and it is not a medical device.',
+        'Detection is rule-based, not machine-learning; planned next steps include activity classification, cloud sync, GPS, and a mobile companion app.',
+      ],
+    },
+  },
 ]
+
+// ลำดับการแสดงผลบนหน้าเว็บ (มีผลทั้งภาษาไทยและอังกฤษ)
+const PROJECT_ORDER = [
+  'Middle',
+  'The End of Mine',
+  'Elderly Falls Monitoring System',
+  'AI Tutor',
+]
+export const projects: Project[] = [...projectsRaw].sort(
+  (a, b) => PROJECT_ORDER.indexOf(a.title) - PROJECT_ORDER.indexOf(b.title),
+)
 
 export type Certification = {
   name: string

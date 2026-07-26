@@ -5,8 +5,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        // Latin glyphs resolve to Inter; Thai glyphs fall through to IBM Plex
+        // Sans Thai automatically (per-glyph font fallback).
+        sans: ['Inter', '"IBM Plex Sans Thai"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"IBM Plex Sans Thai"', 'ui-monospace', 'monospace'],
       },
       colors: {
         // Semantic ink scale driven by CSS variables so the whole app can flip

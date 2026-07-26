@@ -55,6 +55,15 @@ export default function ProjectModal({
             <Header project={project} onClose={onClose} />
 
             <div className="space-y-10 px-6 pb-10 pt-6 sm:px-8">
+              {project.video && (
+                <video
+                  src={project.video}
+                  controls
+                  playsInline
+                  className="w-full rounded-xl border border-ink-800 bg-ink-900"
+                />
+              )}
+
               {project.images && project.images.length > 0 && (
                 <Gallery images={project.images} title={project.title} />
               )}
