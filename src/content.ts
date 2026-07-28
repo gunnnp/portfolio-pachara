@@ -310,6 +310,21 @@ const educationTH: Education[] = [
   },
 ]
 
+// Merge Thai overrides onto the English detail, but keep labels in English:
+// the "how it works" step names and the "built with" group names stay English
+// (only the step description text is translated).
+function mergeDetail(en: ProjectDetail, th?: Partial<ProjectDetail>): ProjectDetail {
+  const merged: ProjectDetail = { ...en, ...th }
+  if (en.howItWorks) {
+    merged.howItWorks = en.howItWorks.map((s, i) => ({
+      step: s.step, // English label
+      detail: th?.howItWorks?.[i]?.detail ?? s.detail, // Thai description
+    }))
+  }
+  if (en.stack) merged.stack = en.stack // English group names + tech items
+  return merged
+}
+
 const projectsTH: Project[] = projectsEN.map((p) => {
   const t = PROJECT_TH[p.title]
   if (!t) return p
@@ -317,7 +332,7 @@ const projectsTH: Project[] = projectsEN.map((p) => {
     ...p,
     description: t.description,
     contribution: t.contribution ?? p.contribution,
-    detail: p.detail ? { ...p.detail, ...t.detail } : p.detail,
+    detail: p.detail ? mergeDetail(p.detail, t.detail) : p.detail,
   }
 })
 
