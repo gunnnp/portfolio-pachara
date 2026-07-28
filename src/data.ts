@@ -13,8 +13,9 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/pachara-torchot-b91879423/',
   },
   about: [
-    'I build software end to end — from web and mobile interfaces to the APIs, databases, and services behind them. My recent work ranges from an IoT fall-detection system with a machine-learning pipeline to a mobile survival game, which taught me to make the different parts of a stack fit together cleanly.',
-    'I care about maintainable architecture, performance, and the small details that make a product feel considered. I like to start from a real problem and build toward something people can actually use.',
+    "I'm a fourth-year Computer Science student at Bangkok University, in the Faculty of Information Technology and Innovation. I work as a full-stack developer with a focus on the frontend, and I enjoy turning ideas into websites and apps that are clean, easy to use, and reliable.",
+    "On the frontend I work mainly with React, React Native, Tailwind, and Vite. On the backend I'm comfortable with Node.js, FastAPI, REST APIs, and databases such as PostgreSQL and SQLite — enough to build a feature from start to finish. I also use AI as a daily tool to work faster and keep learning.",
+    'I like to begin with a real problem and build toward something people can genuinely use, with care for the small details that make a product feel well made. I enjoy working on a team, sharing ideas, and keeping a positive attitude while we get things done together.',
   ],
   highlights: [
     { label: 'Years coding', value: '2+' },
@@ -555,5 +556,13 @@ export const activities: Activity[] = [
     project: 'Middle',
     hrefLabel: 'See the Middle project',
     featured: true,
+  },
+  {
+    title: 'BU Cyber Fortress Challenge & Career Expo',
+    category: 'Seminar',
+    date: '2025',
+    description:
+      "This event widened my view of the cybersecurity field — from the shape of today's cyber threats to how AI is being used to strengthen security, and the skills companies look for in applicants. I spent time at the booths of leading companies asking about roles, internships, and how to prepare for the industry, which gave me a much clearer picture of where I'd like my career to go.",
+    images: ['/Activity/cyber-expo-2.jpg', '/Activity/cyber-expo-1.jpg'],
   },
 ]

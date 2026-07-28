@@ -8,8 +8,9 @@ export default function Activities() {
   const t = useT()
   if (activities.length === 0) return null
 
-  const featured = activities.filter((a) => a.featured)
-  const rest = activities.filter((a) => !a.featured)
+  // Award + any activity with photos become cards; simpler entries fall to a timeline
+  const cards = activities.filter((a) => a.featured || (a.images && a.images.length > 0))
+  const timeline = activities.filter((a) => !a.featured && !(a.images && a.images.length > 0))
 
   return (
     <section id="activities" className="section">
@@ -24,13 +25,15 @@ export default function Activities() {
           <h2 className="h-section mt-4">{t.activities.title}</h2>
         </motion.div>
 
-        {featured.map((a, idx) => (
-          <AwardCard key={a.title} activity={a} idx={idx} />
-        ))}
+        <div className="mt-12 space-y-6">
+          {cards.map((a, idx) => (
+            <ActivityCard key={a.title} activity={a} idx={idx} />
+          ))}
+        </div>
 
-        {rest.length > 0 && (
+        {timeline.length > 0 && (
           <ol className="relative mt-10 space-y-4 border-l border-ink-800 pl-6">
-            {rest.map((a, idx) => (
+            {timeline.map((a, idx) => (
               <motion.li
                 key={a.title}
                 initial={{ opacity: 0, y: 12 }}
@@ -63,26 +66,33 @@ export default function Activities() {
   )
 }
 
-function AwardCard({ activity: a, idx }: { activity: Activity; idx: number }) {
+function ActivityCard({ activity: a, idx }: { activity: Activity; idx: number }) {
   const t = useT()
+  const isAward = a.category === 'Award'
+  const hasImages = !!(a.images && a.images.length > 0)
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.55, delay: idx * 0.05 }}
-      className="card mt-12 overflow-hidden md:grid md:grid-cols-2"
+      className={`card overflow-hidden ${hasImages ? 'md:grid md:grid-cols-2' : ''}`}
     >
-      {a.images && a.images.length > 0 && (
-        <Gallery images={a.images} title={a.title} />
-      )}
+      {hasImages && <Gallery images={a.images!} title={a.title} />}
 
       <div className="flex flex-col justify-center p-6 md:p-8">
         <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-amber-300">
-            <TrophyIcon className="h-3 w-3" />
-            {a.category}
-          </span>
+          {isAward ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-amber-300">
+              <TrophyIcon className="h-3 w-3" />
+              {a.category}
+            </span>
+          ) : (
+            <span className="rounded-full border border-ink-800 bg-ink-900 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-ink-300">
+              {a.category}
+            </span>
+          )}
           <span className="font-mono text-xs text-ink-500">{a.date}</span>
         </div>
 
