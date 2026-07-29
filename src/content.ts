@@ -463,7 +463,7 @@ const uiEN = {
     screenshot: 'screenshot',
   },
   certs: {
-    title: 'Credentials.',
+    title: 'Certificates.',
     subtitle: 'Click any card to view the certificate.',
     verify: 'Verify',
     hint: 'Esc to close · ← → to navigate',
