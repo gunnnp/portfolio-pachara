@@ -305,12 +305,14 @@ const educationTH: Education[] = [
     stage: 'มัธยมศึกษา',
     school: 'โรงเรียนวินิตศึกษา ในพระราชูปถัมภ์ฯ',
     degree: 'โครงการ Textbook',
+    gpa: '3.81',
   },
   {
     stage: 'ปัจจุบัน · ปี 4',
     school: 'มหาวิทยาลัยกรุงเทพ',
     degree: 'วิทยาการคอมพิวเตอร์',
     detail: 'คณะเทคโนโลยีสารสนเทศและนวัตกรรม',
+    gpa: '3.22',
     current: true,
   },
 ]
@@ -474,7 +476,7 @@ const uiEN = {
     learnMore: 'Learn more',
   },
   contact: {
-    title: "Let's build something.",
+    title: 'Get in touch.',
     subtitle: 'Currently open to full-stack developer roles. I usually reply within a day.',
     availableNow: 'Available now',
   },
@@ -594,7 +596,7 @@ const uiTH: UI = {
     learnMore: 'ดูเพิ่มเติม',
   },
   contact: {
-    title: 'มาสร้างอะไรด้วยกัน',
+    title: 'ช่องทางติดต่อ',
     subtitle: 'ตอนนี้เปิดรับงาน full-stack developer ปกติผมตอบกลับภายในหนึ่งวัน',
     availableNow: 'พร้อมเริ่มงาน',
   },

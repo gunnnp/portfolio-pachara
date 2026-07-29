@@ -8,6 +8,7 @@ export const profile = {
   tagline: 'I build reliable web and mobile products, from interface to backend.',
   location: 'Phra Nakhon Si Ayutthaya, Thailand',
   email: 'pacharatorchot@gmail.com',
+  phone: '0985324192',
   socials: {
     github: 'https://github.com/gunnnp',
     linkedin: 'https://www.linkedin.com/in/pachara-torchot-b91879423/',
@@ -29,6 +30,7 @@ export type Education = {
   school: string
   degree: string
   detail?: string
+  gpa?: string // เกรดเฉลี่ย เช่น "3.81"
   current?: boolean // true = จุดไทม์ไลน์เป็นสีเด่น (ระดับปัจจุบัน)
 }
 
@@ -37,12 +39,14 @@ export const education: Education[] = [
     stage: 'Secondary education',
     school: 'Winit Suksa School (under Royal Patronage)',
     degree: 'Textbook Program',
+    gpa: '3.81',
   },
   {
     stage: 'Current · Year 4',
     school: 'Bangkok University',
     degree: 'Computer Science',
     detail: 'School of Information Technology and Innovation',
+    gpa: '3.22',
     current: true,
   },
 ]

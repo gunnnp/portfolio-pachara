@@ -99,6 +99,9 @@ export default function About() {
                       <span className="font-medium text-ink-300">{e.degree}</span>
                       {e.detail && <span className="text-ink-500"> · {e.detail}</span>}
                     </p>
+                    {e.gpa && (
+                      <p className="mt-1.5 font-mono text-xs text-ink-500">GPA {e.gpa}</p>
+                    )}
                   </motion.li>
                 ))}
               </ol>

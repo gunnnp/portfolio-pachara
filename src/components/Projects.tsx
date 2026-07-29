@@ -74,7 +74,7 @@ function ProjectCard({
           <button
             type="button"
             onClick={onOpen}
-            className="text-left text-base font-medium text-ink-50 transition-colors hover:text-white"
+            className="text-left text-base font-medium text-ink-50 transition-colors hover:text-ink-300"
           >
             {project.title}
           </button>
@@ -95,7 +95,7 @@ function ProjectCard({
           <button
             type="button"
             onClick={onOpen}
-            className="group/more inline-flex items-center gap-1 text-ink-100 hover:text-white"
+            className="group/more inline-flex items-center gap-1 text-ink-100 hover:text-ink-50"
           >
             {ui.projects.readMore}{' '}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/more:translate-x-0.5" />

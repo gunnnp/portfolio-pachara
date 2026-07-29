@@ -133,7 +133,7 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 rounded-md bg-ink-50 px-4 py-2 text-sm font-medium text-ink-950 transition-all hover:bg-white;
+    @apply inline-flex items-center gap-2 rounded-md bg-ink-50 px-4 py-2 text-sm font-medium text-ink-950 transition-all hover:bg-ink-200;
   }
 
   .card {

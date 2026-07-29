@@ -21,21 +21,11 @@ export default function Hero() {
 
       <div className="container-x grid items-center gap-10 md:grid-cols-[1.15fr_0.85fr] md:gap-14">
         <div>
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900/60 px-3 py-1 text-xs text-ink-300 backdrop-blur"
-        >
-          <span className="status-dot" aria-hidden />
-          <span>{t.hero.badge}</span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.08 }}
-          className="mt-6 text-4xl font-medium tracking-tight text-ink-50 md:text-6xl"
+          className="text-4xl font-medium tracking-tight text-ink-50 md:text-6xl"
         >
           {profile.name}
         </motion.h1>

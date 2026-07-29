@@ -63,7 +63,6 @@ export default function Certifications() {
           <div>
             <p className="eyebrow">04 / {t.sections.certifications}</p>
             <h2 className="h-section mt-4">{t.certs.title}</h2>
-            <p className="mt-3 text-sm text-ink-500">{t.certs.subtitle}</p>
           </div>
         </motion.div>
 

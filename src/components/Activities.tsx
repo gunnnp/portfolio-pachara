@@ -117,7 +117,7 @@ function ActivityCard({ activity: a, idx }: { activity: Activity; idx: number })
                     new CustomEvent('open-project', { detail: a.project }),
                   )
                 }
-                className="arrow-hover inline-flex items-center gap-1.5 text-sm text-ink-100 hover:text-white"
+                className="arrow-hover inline-flex items-center gap-1.5 text-sm text-ink-100 hover:text-ink-50"
               >
                 {a.hrefLabel ?? t.activities.learnMore}
                 <ArrowRight className="h-3.5 w-3.5" />
